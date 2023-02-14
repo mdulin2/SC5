@@ -1,0 +1,548 @@
+html {
+	background: #fff;
+}
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="time"],
+select {
+	border-color: #dfdfdf;
+	background: #fff;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="file"]:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="time"]:focus,
+select:focus {
+	border-color: #aaa;
+	outline: none;
+}
+
+code {
+	background: #eaeaea;
+}
+
+hr {
+	background: #dfdfdf
+}
+
+input[readonly] {
+	background: #eee;
+}
+
+body {
+	color: #111;
+}
+
+#menu {
+	background: #ececec;
+	border-color: #ccc;
+}
+
+#menu,
+.menu-top,
+.menu-top:hover,
+.menu-top:focus,
+#selectedModuleLink + .wp-submenu {
+	background-image: url(menu-shadow.png);
+	background-position: top right;
+	background-repeat: repeat-y;
+}
+
+.menu-inter {
+	border-color: #dfdfdf;
+}
+
+#footer {
+	background: #ececec;
+}
+
+#footerwrap,
+#footerhelp {
+	border-color: #dfdfdf;
+}
+
+#footerhelp {
+	background: #fff;
+}
+
+.widefat {
+	border-color: #dfdfdf;
+	background: #f9f9f9;
+}
+
+.postbox > thead th,
+.widefat th,
+.widefat tfoot tr th {
+	background: #f1f1f1;
+	background: -ms-linear-gradient(top, #f9f9f9, #ececec);
+	background: -webkit-linear-gradient(top, #f9f9f9, #ececec);
+	background: -moz-linear-gradient(top, #f9f9f9, #ececec);
+	background: linear-gradient(top, #f9f9f9, #ececec);
+}
+
+.postbox .h3selected {
+	background: #f9f9f9;
+	background: -ms-linear-gradient(top, #ececec, #f9f9f9);
+	background: -webkit-linear-gradient(top, #ececec, #f9f9f9);
+	background: -moz-linear-gradient(top, #ececec, #f9f9f9);
+	background: linear-gradient(top, #ececec, #f9f9f9);
+}
+
+.postbox > thead th {
+	border-bottom-color: #dfdfdf;
+	text-shadow: #fff 0 1px 0;
+}
+
+.widefat tr:nth-child(odd),
+.alternate,
+.alt {
+	background: #fcfcfc
+}
+
+.widefat tr:nth-child(even) {
+	background: #f9f9f9
+}
+
+.wp-submenu,
+.highlight,
+.widefat tr.highlight {
+	background: #fff
+}
+
+input[type=button],
+input[type=submit] {
+	border-color: #bbb;
+	color: #464646
+}
+
+input[type=button]:hover,
+input[type=submit]:hover,
+input[type=button]:focus,
+input[type=submit]:focus {
+	color: #000;
+	border-color: #666
+}
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+	background: #f2f2f2 url(white-grad.png) repeat-x scroll left top;
+	background: -ms-linear-gradient(top, #fff, #ededed);
+	background: -webkit-linear-gradient(top, #fff, #ededed);
+	background: -moz-linear-gradient(top, #fff, #ededed);
+	background: linear-gradient(top, #fff, #ededed);
+	text-shadow: #fff 0 1px 0
+}
+
+input[type="submit"]:active,
+input[type="reset"]:active,
+input[type="button"]:active {
+	background: #eee url(white-grad-active.png) repeat-x scroll left top background:-ms-linear-gradient(top, #ededed, #fff);
+	background: -webkit-linear-gradient(top, #ededed, #fff);
+	background: -moz-linear-gradient(top, #ededed, #fff);
+	background: linear-gradient(top, #ededed, #fff);
+}
+
+/* Primary button */
+
+input.button-primary,
+button.button-primary,
+a.button-primary {
+	border-color: #15556b;
+	font-weight: bold;
+	color: #fff;
+	background-image: url(button-grad.png);
+	/* Opera */
+	background: -ms-linear-gradient(top, #298cba, #1d6385);
+	background: -webkit-linear-gradient(top, #298cba, #1d6385);
+	background: -moz-linear-gradient(top, #298cba, #1d6385);
+	background: linear-gradient(top, #298cba, #1d6385);
+	text-shadow: rgba(0, 0, 0, .3) 0 -1px 0;
+}
+
+input.button-primary:active,
+button.button-primary:active,
+a.button-primary:active {
+	background-image: url(button-grad-active.png);
+	/* Opera */
+	background: -ms-linear-gradient(top, #1d6385, #298cba);
+	background: -webkit-linear-gradient(top, #1d6385, #298cba);
+	background: -moz-linear-gradient(top, #1d6385, #298cba);
+	background: linear-gradient(top, #1d6385, #298cba);
+}
+
+input.button-primary:hover,
+button.button-primary:hover,
+a.button-primary:hover,
+input.button-primary:focus,
+button.button-primary:focus,
+a.button-primary:focus {
+	border-color: #10354b;
+	color: #fff;
+	outline: none;
+}
+
+a:hover,
+a:active,
+a:focus,
+.adminmenu a:hover,
+.adminmenu a:focus {
+	color: #d54e21;
+}
+
+a:active,
+a:focus {
+	outline: 1px dotted #d54e21;
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+	outline: 1px dotted #000;
+}
+
+div.error {
+	background: #ffebe8;
+	border-color: #c00
+}
+
+div.error a {
+	color: #c00
+}
+
+div.updated {
+	background: #ffffe0;
+	border-color: #e6db55
+}
+
+.widefat td,
+.widefat th {
+	border-color: #fff;
+	border-bottom-color: #dfdfdf
+}
+
+.widefat th {
+	text-shadow: rgba(255, 255, 255, .8) 0 1px 0
+}
+
+a,
+.adminmenu a {
+	color: #21759b
+}
+
+.postbox {
+	border-color: #dfdfdf;
+	box-shadow: inset 0 1px 0 #fff
+}
+
+.postbox {
+	background: #f9f9f9;
+}
+
+.postbox th {
+	color: #464646
+}
+
+.postbox th:hover {
+	color: #000
+}
+
+.adminmenu {
+	background: #ececec;
+	border-color: #ccc
+}
+
+.menu-top {
+	border-top-color: #f9f9f9;
+	border-bottom-color: #dfdfdf
+}
+
+.menu-top:hover,
+.menu-top:focus {
+	background-color: #e4e4e4;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, .4)
+}
+
+.wp-submenu {
+	border-color: #dfdfdf #ccc;
+}
+
+.no-touch .menu-module:hover .wp-submenu {
+	box-shadow: 2px 2px 4px #ccc;
+}
+
+.wp-submenu a:hover,
+.wp-submenu a:focus,
+#selectedMenuLink {
+	background-color: #EAF2FA;
+	color: #111
+}
+
+.wp-submenu a:focus {
+	outline: 1px dotted #111;
+}
+
+/*added*/
+
+.header2 {
+	background: #f9f9f9;
+	border-bottom: 1px solid #dfdfdf;
+	border-top: 1px solid #fff
+}
+
+#courses_div {
+	background: #fff
+}
+
+fieldset {
+	border-color: #dfdfdf
+}
+
+.bgcolor {
+	background: #ececec
+}
+
+.legend-gray {
+	color: #535353;
+}
+
+.legend-red {
+	color: red
+}
+
+.underline-dots {
+	border-bottom-color: gray
+}
+
+/* MarkDown */
+
+.md-preview .tab,
+.md-preview > div {
+	border-color: #dfdfdf
+}
+
+.md-preview .tab:hover,
+.md-preview .tab.disabled {
+	background: #fff;
+	border-color: #bbb
+}
+
+hr {
+	color: #fff
+}
+
+/*Side current person*/
+
+.current-person,
+.current-person a {
+	color: #fff
+}
+
+.current-person.student {
+	background: #333366
+}
+
+.current-person.staff {
+	background: #336633
+}
+
+.current-person.self {
+	background: #663333
+}
+
+/*student comments*/
+
+#student-comments div {
+	background: #fff
+}
+
+/*calendar*/
+
+#calendar {
+	background: #DFDFDF
+}
+
+#calendar th {
+	background: #333;
+	color: #fff
+}
+
+.calendar-day.full {
+	background: #EEFFEE
+}
+
+.calendar-day.minutes {
+	background: #EEEEFF
+}
+
+.calendar-day.no-school {
+	background: #FFEEEE
+}
+
+.calendar-event {
+	border-color: #000
+}
+
+.calendar-event.assignment {
+	border-color: #FF0000
+}
+
+.calendar-event.assigned {
+	border-color: #00FF00
+}
+
+/* Legend */
+
+.legend-square.full {
+	background-color: #afa;
+}
+
+.legend-square.minutes {
+	background-color: #aaf;
+}
+
+.legend-square.no-school {
+	background-color: #faa;
+}
+
+/* Attendance Codes */
+
+.attendance-code.present {
+	color: #fff;
+	background-color: #20DD30;
+	/* Green */
+}
+
+.attendance-code.absent {
+	color: #fff;
+	background-color: #FF0000;
+	/* Red */
+}
+
+.attendance-code.half-day {
+	color: #fff;
+	background-color: #FFCC00;
+	/* Yellow */
+}
+
+.attendance-code.present-alt {
+	color: #fff;
+	background-color: #DDFFDD;
+	/* Green */
+}
+
+.attendance-code.absent-alt {
+	color: #fff;
+	background-color: #FFDDDD;
+	/* Red */
+}
+
+.attendance-code.half-day-alt {
+	color: #fff;
+	background-color: #FFEEDD;
+	/* Yellow */
+}
+
+/*arrows*/
+
+.switchMenu:before {
+	color: gray
+}
+
+/*bottom*/
+
+#BottomButtonMenu:before {
+	color: #000
+}
+
+/*bars*/
+
+.bar {
+	color: transparent;
+}
+
+.bar.relevance {
+	background: gray;
+}
+
+.divPortalPoll .bar {
+	background: #cc4400;
+}
+
+/* colorBox */
+
+#cboxLoadedContent {
+	background: #fff !important
+}
+
+/* Tooltip */
+
+.tooltip {
+	color: #fff
+}
+
+.tooltip:before {
+	background: #27b4b4
+}
+
+.tooltip > i {
+	background: #444
+}
+
+/* Teacher Programs */
+
+.teacher-programs-wrapper {
+	border-color: #dfdfdf;
+}
+
+/* Password Input */
+
+/* @link http://clrs.cc/ */
+
+.password-strength-bars span {
+	background-color: #FF4136;
+}
+
+.password-strength-bars .score2 {
+	background-color: #FF851B;
+}
+
+.password-strength-bars .score3,
+.password-strength-bars .score4 {
+	background-color: #2ECC40;
+}
+
+/*responsive tables*/
+
+@media only screen and (max-width: 1023px) {
+	.rt tr {
+		border-right-color: #dfdfdf
+	}
+}
+
+@media only screen and (max-width:736px) {
+	.wp-submenu a:hover {
+		background: transparent;
+		color: #21759b
+	}
+}

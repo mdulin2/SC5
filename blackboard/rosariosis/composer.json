@@ -1,0 +1,10 @@
+{
+	"name": "francoisjacquet/rosariosis",
+	"description": "Student Information System for school management",
+	"keywords": ["school", "education", "student", "management", "erp", "gradebook", "attendance", "teacher", "timetable"],
+	"homepage": "https://gitlab.com/francoisjacquet/rosariosis/",
+	"license": "GPL-2.0-only",
+	"require": {
+		"php": ">=5.4.45"
+	}
+}

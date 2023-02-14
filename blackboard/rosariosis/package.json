@@ -1,0 +1,16 @@
+{
+  "name": "rosariosis",
+  "description": "RosarioSIS Student Information System for school management.",
+  "author": "François Jacquet @francoisjacquet",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/francoisjacquet/rosariosis"
+  },
+  "devDependencies": {
+    "grunt": ">=1.3.0",
+    "grunt-contrib-cssmin": "~4.0.0",
+    "grunt-contrib-uglify": "~5.0.1",
+    "grunt-contrib-watch": "~1.1.0"
+  }
+}

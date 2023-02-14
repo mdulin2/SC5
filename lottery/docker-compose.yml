@@ -1,0 +1,19 @@
+
+version: '2'
+services:
+  web-app:
+    build:
+      context: ./web-app
+      dockerfile: Dockerfile-nginx
+    ports:
+      - "8091:80"
+  redis:
+    image: redis
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile-python
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis

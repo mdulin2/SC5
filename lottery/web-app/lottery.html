@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Lottery</title>
+        </style>
+    </head>
+    <body onload="getPrevious()">
+        <div class="row">
+            <div class="column left">
+                <h1>Your Lotto Guess</h1> 
+                <form onsubmit="return false" method="get" id="guessform">
+                    <input type="text" id="guess" name="guess"><br><br>
+                </form>
+                <button type="submit" form="guessform" value="Submit" onclick="guessNumber(guess.value)">Submit</button>
+                <button value="Submit" onclick="validateGuess()">Check Your Guess</button>
+                <p class="alert"></p>
+            </div>
+            <div class="column middle">
+                <h1>Lotto</h1>
+                <img src="lotto.gif" alt="Lottery" class="lotto">
+            </div>
+            <div class="column right">
+                <h1>Previous Numbers</h1> 
+                <div class="vertical-menu" id="myItemList">
+                </div> 
+            </div>
+          </div>
+          <script src="main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+.lotto {
+    display: block;
+    position:fixed;
+    bottom:0px;
+}
+
+.column {
+    float: left;
+}
+
+.left, .right {
+    width: 25%;
+}
+
+.middle {
+    width: 50%;
+}
+
+.vertical-menu {
+    width: 200px; /* Set a width if you like */
+    margin: 0 auto;
+  }
+  
+.vertical-menu li {
+    background-color: #eee; /* Grey background color */
+    color: black; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
+}
+
+html { 
+    background: url(background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+h1, .register {
+    color: #ffffff;
+    font-family: arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.alert {
+    color: white;
+}
+
+#username {
+    color: #000000
+}

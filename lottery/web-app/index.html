@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Lottery</title>
+        </style>
+    </head>
+    <body>
+        <div class="register">
+            <h1>Enter Your Name</h1> 
+            <form onsubmit="return false" method="get" id="registerForm">
+                <input type="text" id="userName" name="userName"><br><br>
+            </form>
+            <button type="submit" form="registerForm" value="Submit" onclick="register(userName.value)">Submit</button>
+            <p class="alert"></p>
+        </div>
+        <script src="main.js"></script>
+    </body>
+</html>

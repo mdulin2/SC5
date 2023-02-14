@@ -1,0 +1,41 @@
+## Student Management System 
+- What would you do if you had credentials for a student? 
+- Trying to create a gradebook system: 
+	- https://github.com/rgebica/Online-Gradebook
+	- https://github.com/AngelaJR/gradebook
+	- https://github.com/francoisjacquet/rosariosis
+- The last one seems the most promising because of the docs for installation:
+	- https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md
+
+
+## Challenges 
+- Setup: 
+	- Execute the sql queries within ``setup_postgres.sh``
+	- Add three users: 
+		- 10 - mdulin:mdulin - creds given out to people
+		- 11 - vdulin:RANDOM_PASSWORD - Bug 1 victim
+		- RANDOM_ID - nkirkland:nkirkland - Bug 3 victim
+	- Delete all default creds besides the student
+	- Add a class
+	- Add some grades to that
+	- Put flag within the grade notes of Vanessa
+	- Put flag in address or something like that for Nathan
+- View wrong students grades via IDOR
+	- Bug 1
+	- How to add: 
+		- Remove 'isHack' variable from the Current.php file inside of 'SetUserStudentID' function for the student. 
+		- Remove check on the first line of student as well
+		- Insert flag as the last name or something like that
+		- This modification literally changes the student ID of the session. So, everything after this is SUPER easy.
+	- User setup: 
+		- Two users with a similar ID
+	- Grades/info/etc. 
+- Default creds for teacher/student not changed: 
+	- Bug 2 
+	- Insert flag inside page.
+	- Just read the docs
+	- https://gitlab.com/francoisjacquet/rosariosis/-/wikis/Secure-RosarioSIS
+- Predictable default creds:
+	- Bug 3
+	- username the same as the password
+	- nkirkland
