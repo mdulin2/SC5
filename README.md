@@ -89,6 +89,7 @@
 	- Recover private key from repeated nonces - Playstation 3 vulnerability 
 - Signature bypass:
 	- https://nft.mirror.xyz/VdF3BYwuzXgLrJglw5xF6CHcQfAVbqeJVtueCr4BUzs
+- **Passphrase**
 - Whatever Max Arnold wants to do? lol
 
 ## Other Challenges
@@ -101,6 +102,8 @@
 	- Long distance call
 	- Things like this
 	- https://www.instructables.com/ProjectMF-blue-box-phreaking-demo/
-- **Passphrase**
+- Slide Rule:
+	- https://www.sliderules.org/
+- Soldering: Likely need funding and a custom PCB to do this one.
 - I'm in video
 
