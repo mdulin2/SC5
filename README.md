@@ -94,7 +94,9 @@
 
 ## Other Challenges
 - Hotel finding from only an image(Vanessa) 
-- Blockchain challenges (Kevin)
+- Blockchain challenges (Kevin):
+	- Attack tracing
+	- NFT getting
 - Location privacy issues via trianglation
 - Morse Code
 - Phreaking:
