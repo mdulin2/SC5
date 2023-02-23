@@ -107,3 +107,30 @@
 - Soldering: Likely need funding and a custom PCB to do this one.
 - I'm in video
 
+
+## Contributing
+
+- General notes: 
+	- Be creative and have fun! Novel things are awesome :) 
+	- You don't have to finish the challenge in one go. Feel free to put simple POCs or even ideas into its own folder.
+	- There can only be so many difficult challenges. Generally, make things easier rather than harder. 
+	- Try to limit the amount of external tools required. 
+		- At SC4, the only required things were SSH, wireshark, a Unix terminal and a web browser. Lowest ever and worked really well.
+		- If there's a specialized tool for something (like memory forensics), then we can do it. Just try to limit these as much as possible. Setting up new tools takes time to do and isn't always feasible for the high school teams. 
+- Starting a challenge:
+	- Each individual challenge or series of challenges should have its own folder. 
+	- Mark the challenge on this README in the proper category.
+	- For each sub-challenge, mark the vulnerability or overview of the challenge. 
+	- Once it's finished, **bold** the challenge and update the total finished challenge amount.
+- A prompt:
+	- What are the students given? 
+	- Hints should be put into here as well.
+	- Usually put into the ``Challenge.md`` file. 
+- A solution to the challenge. 
+	- The overview of the solution is usually put into the ``Solution.md`` file. 
+	- Anything else, such as a bash or Python script, can be put into the folder as well. 
+- The setup for the challenge. 
+	- If this is a hosted challenge, such as an SSH challenge or website, this should be in a docker container (if possible). If you're not comfortable with Docker, feel free to reach out to Maxwell Dulin. It is recommended that other Docker containers are reused for simplicity.  
+	- If this is text, a file or anything else, the content should be uploaded and explained how it should be used. 
+
+
