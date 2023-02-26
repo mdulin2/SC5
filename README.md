@@ -105,6 +105,7 @@
 	- Things like this
 	- https://www.instructables.com/ProjectMF-blue-box-phreaking-demo/
 - Slide Rule:
+	- Raven slide rule has a solver engine. Hosting ONLY this one and moving the verification to a backend would work pretty well.
 	- https://www.sliderules.org/
 - Soldering: Likely need funding and a custom PCB to do this one.
 - I'm in video
