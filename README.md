@@ -32,6 +32,7 @@
 	- Insecure login (direct request or bad creds or SQLi maybe?) 
 	- Command injection
 - Insecure randomness
+- Unpastable text box
 - Whatever else :) 
 
 
