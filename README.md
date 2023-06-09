@@ -66,6 +66,8 @@
 	- https://github.com/kratos1398/ctf_challenges
 - **Odd**: 
 	- Question mark wildcards
+- **Surrondings**: 
+	- ulimit and error handling
 
 ## Reverse Engineering 
 - GameBoy:
@@ -73,6 +75,10 @@
 	- Strings
 	- Magic button combo
 - Simple C binary reading
+- **tpm_decode** (3): 
+	- Find the command
+	- Find the secret being stored
+	- Find the password in the command
 
 ## Blue Team 
 - Malware analysis or memory forensics (Gerard) 
@@ -92,6 +98,8 @@
 	- https://nft.mirror.xyz/VdF3BYwuzXgLrJglw5xF6CHcQfAVbqeJVtueCr4BUzs
 - **Passphrase**
 - Whatever Max Arnold wants to do? lol
+- **Mean what you sign**: 
+	- Misuse of signatures in cryptography
 
 ## Other Challenges
 - Hotel finding from only an image(Vanessa) 
