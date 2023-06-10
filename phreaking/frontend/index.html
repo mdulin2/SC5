@@ -16,9 +16,16 @@
                 End call
             </button>
         </p>
-        <table id="dialTable">
-        </table>
-        <iframe src="https://onlinetonegenerator.com/dtmf.html"></iframe>
+
+        <!--
+            Have to do this in an iframe
+            This is because MediaRecorder will ignore audio processed from the same DOM (I think)? 
+            If we do this straight on the same page, it doesn't work. But this works :) 
+        -->
+        <iframe id="soundBar" src="dial.html">
+        </iframe>
+
+        <!--<iframe src="https://onlinetonegenerator.com/dtmf.html"></iframe>-->
     </body>
 
 </html>

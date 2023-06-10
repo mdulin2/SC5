@@ -18,7 +18,7 @@ var number_tones = [[697, 770, 852, 941], [1209, 1336, 1477, 1633]]
 var entry_list = ["1", "2", "3", "A", "4", "5", "6", "B", "7", "8", "9", "C", "*", "0", "#", "D"]
 
 // Initialize the numbers table
-createDialNumbers(); 
+//createDialNumbers(); 
 
 async function initializeCall(){
     const response = await fetch("http://localhost:8001/startCall"); 
@@ -130,7 +130,13 @@ async function cancelAudio(){
 }
 
 function createDialNumbers(){
-    var tableNode = document.getElementById("dialTable")
+    //var iframe = document.getElementById("soundBar").contentWindow.document;
+
+    //var tableNode = iframe.createElement('table'); 
+    //tableNode.id = "diableTable"; 
+    var tableNode = document.getElementById("dialTable");
+
+    //var tableNode = iframe.getElementById("dialTable")
     console.log(tableNode);
 
     for (var rowIndex = 0; rowIndex < 4; rowIndex++){
