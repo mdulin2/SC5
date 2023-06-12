@@ -1,25 +1,30 @@
 ## Recreate the phreaking process from the 70s. 
 
 ### Architecture
-- Take recordings of audio and process them later:
-    - Meh. Not great. Would limit what we can do. 
 - Stream audio and process in small chunks: 
     - Doable! 
     - Would likely require a good amount of development work. 
     - Websockets to send audio every half second, process and figure out what to do? Like, what state does it change? 
+- frontend: 
+    - Press a button to change make tones
+    - Listener that captures the audio data and sends it to the backend via a websocket in the webm format
+    - In seperate iFrames because of same page audio weirdness
+- backend: 
+    - Audio processing using numpy number manipulation. Convert data from webm to wav
+    - sqlite3 database to store the state of the caller
+    - Websocket listener for audio data
+    - HTTP server for everything else like starting the dialing process.
 
 
 ### Technology 
 - Websocket frontend:
     - Native javascript. Doesn't support native 'wav' in the browser. 
     - Going to send data to the server and convert locally with ffmpeg
-    - pcm is close to wav! But, only supported on Chrome: 
-        - https://stackoverflow.com/questions/40729039/pcm-support-in-webm-and-chromes-webm-implementation
-        - https://source.chromium.org/chromium/chromium/src/+/main:third_party/WebKit/LayoutTests/fast/mediarecorder/MediaRecorder-isTypeSupported.html;drc=2ffd605a2b7871dc284c62ebf9836ae963672b83
 - Websocket backend: 
     - Python library like flask
 - Audio processing: 
-    - pyaudio
+    - Raw data with numpy
+    - Convert from webm from browser to wav with ffmpeg
 - ffmpeg: 
     - Format converter
 
@@ -38,7 +43,7 @@
     - Numbers and everything are in it.
     - https://onlinetonegenerator.com/dtmf.html
 - Multiple tone generator: 
-    - 
+    - https://onlinetonegenerator.com/multiple-tone-generator.html
 
 ### aubio
 - Collection of tools for music and audio analysis
@@ -48,10 +53,10 @@
     - https://towardsdatascience.com/get-to-know-audio-feature-extraction-in-python-a499fdaefe42
 
 ## Dependencies
-- scipy
-- pyaudio
 - numpy
-- pylab-sdk
+- ffmpeg
+- flask 
+- python3
 
 
 ## Phreaking
@@ -74,14 +79,13 @@
         - https://phreaking.fandom.com/wiki/List_of_boxes
     - Bell Labs Explanation on how this works: 
         - https://ia801606.us.archive.org/30/items/bstj39-6-1381/bstj39-6-1381_text.pdf
-    - 
-
 
 
 ## Challenge Ideas
 - Unseen character:
     - Type in a 'D' or something like that not on the screen 
     - Demonstrates the ability to create arbitrary tones
+    - Currently, sending A, B, C or D will output a flag
 - Long distance call: 
     - Type in a number like normal 
     - Use the 2600 frequency 
@@ -94,10 +98,32 @@
     - How to track REAL coin entry vs. fake one? Could store that as a field in the websocket? I don't people will know how to spoof this request anyway.
     - Red box
     - The different amount of tones reflected what type of coin to use. Unfortantly, my code can only pick out the frequencies and not clicks. Close enough though ;) 
+    - Unsure HOW I'm going to implement this rn.
     - https://en.wikipedia.org/wiki/Red_box_(phreaking)
     - http://www.phonelosers.org/redbox/
 - Computer discovery: 
     - Modem dials
     - Call forwarding
 - Calling card fraud: 
-    - Small amount of cards?
+    - Trying a bunch of calling cards... could be fun!
+
+
+## Running
+- frontend: 
+    - ``cd frontend; ./start.sh``
+- backend:
+    - There are TWO things going on here. A websocket and HTTP flask server. They both need to be started.
+    - websocket: ``python3 WebsocketServer.py``
+    - HTTP: ``python3 HttpServer.py``
+
+
+## TODO 
+- Add phone book functionality
+    - Have multiple callers that can be returned
+    - Get funny audios to send over
+- Long distance call validation:
+- Integration coin into UI (or not):
+    - Add request to VERIFY the process for coin being sent
+    - If HTTP and websocket noise don't match, give them a flag.
+- Update state change on UI
+- Make UI look nice
