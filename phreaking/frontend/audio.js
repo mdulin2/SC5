@@ -13,9 +13,15 @@ var url = "localhost:8000"
 // Call this function to setup the websockets
 var oscillator1; 
 var oscillator2; 
+var audioPlayer = false; 
 
 var number_tones = [[697, 770, 852, 941], [1209, 1336, 1477, 1633]]
 var entry_list = ["1", "2", "3", "A", "4", "5", "6", "B", "7", "8", "9", "C", "*", "0", "#", "D"]
+
+other_dtmf = {
+    "COIN" : [1700, 2200],
+    "DIAL": [350, 440]
+}
 
 // Initialize the numbers table
 //createDialNumbers(); 
@@ -38,15 +44,19 @@ async function initializeCall(){
 
     // Receive incoming messages
     socket.onmessage = function(e){
-        receiveMessage(e); 
+        receiveMessageWebSocket(e); 
     }
+
+    document.getElementById("stateData").innerText = "State: DIALING";
     console.log(socket); 
 }
 
 // The bulky function that handles the websocket handling functionality
-function receiveMessage(event){
-    console.log("Received message!");
-    console.log(event);
+function receiveMessageWebSocket(event){
+    var responseJson = JSON.parse(event.data);
+
+    // TODO: Make more strict on location being sent to
+    parent.postMessage(responseJson, "*");
 }
 
 // Start or stop the audio processing
@@ -72,16 +82,9 @@ function startAudioParsing(stream) {
         // Start an interval counter which comes in and clears the other data and sends it off
         lowerLevelIntervalId = setInterval(function() {
             var chunks = [];
-            var mimeType; 
-
-            var supported = MediaRecorder.isTypeSupported("audio/webm;codecs=pcm");
-            if(supported == true){
-                mimeType = "audio/webm;codecs=pcm";
-            }else{
-                mimeType="audio/webm";
-            }
 
             // Supported mimetypes: https://stackoverflow.com/questions/41739837/all-mime-types-supported-by-mediarecorder-in-firefox-and-chrome
+            var mimeType="audio/webm";
             var recorder = new MediaRecorder(stream, {mimeType: mimeType});
 
             // Whenever there is data, push it to the 'chunks' queue
@@ -95,9 +98,8 @@ function startAudioParsing(stream) {
                 // Convert 'blob' to wav mimetype before sending to server
                 // https://stackoverflow.com/questions/52021331/convert-blob-to-wav-file-without-loosing-data-or-compressing
                 var audioBlob = new Blob(chunks);
-                console.log(audioBlob); 
 
-                // Convert data to 'wav' (maybe) and send it off
+                // Send webm data to the backend. Will convert into a 'wav' manually.
                 socket.send(audioBlob);
             }
 
@@ -106,8 +108,8 @@ function startAudioParsing(stream) {
             // Every second, briefly stop the recorder in order to send the data within the 'onstop' handler.
             setTimeout(function() {
                 recorder.stop();
-            }, 540);
-    }, 500);
+            }, 420);
+    }, 400);
 }
 
 
@@ -122,22 +124,22 @@ async function cancelAudio(){
     clearInterval(higherLevelIntervalId);
     clearInterval(lowerLevelIntervalId);
     socket.close(); 
+
     // TODO: Add 'endCall' function to stop the call on the backend
 
     higherLevelIntervalId = -1
     lowerLevelIntervalId = -1;
     socketInitialized = false; 
+    document.getElementById("numberData").innerText = "";
+    document.getElementById("flagData").innerText = "";
+    document.getElementById("stateData").innerText = "";
+
 }
 
 function createDialNumbers(){
-    //var iframe = document.getElementById("soundBar").contentWindow.document;
-
-    //var tableNode = iframe.createElement('table'); 
-    //tableNode.id = "diableTable"; 
     var tableNode = document.getElementById("dialTable");
 
     //var tableNode = iframe.getElementById("dialTable")
-    console.log(tableNode);
 
     for (var rowIndex = 0; rowIndex < 4; rowIndex++){
         // https://www.w3schools.com/jsref/met_table_insertrow.asp
@@ -158,7 +160,7 @@ function createDialNumbers(){
                 var columnIndex = e.target.id.split("-")[2]; 
                 
                 // Call with the proper frequencies
-                generateButtonTone(number_tones[0][parseInt(rowIndex)], number_tones[1][parseInt(columnIndex)])
+                generateButtonTone(number_tones[0][parseInt(rowIndex)], number_tones[1][parseInt(columnIndex)], 500)
             });
 
             cell.appendChild(btn);
@@ -170,7 +172,7 @@ function createDialNumbers(){
 For a given button, generate a tone
 https://marcgg.com/blog/2016/11/01/javascript-audio/
 */
-function generateButtonTone(freq1, freq2){
+function generateButtonTone(freq1, freq2, time){
     
     var context = new AudioContext()
     const oscillator1 = new OscillatorNode(context, { frequency: freq1 });
@@ -188,6 +190,74 @@ function generateButtonTone(freq1, freq2){
         // TODO: Make more gradual of a slow down to sound better
         oscillator1.stop(); 
         oscillator2.stop(); 
-    }, 500); 
+    }, time); 
+}
 
+// Setup a postMessage listener for the 'dial' to 'index' communication
+function initializeIFrameListenerMainPage(){
+    window.addEventListener('message', e => {
+
+        // TODO: Wrong domain check
+        console.log(e.origin, document.location.origin);
+        if (e.origin !== document.location.origin) return;
+
+        const key = e.message ? 'message' : 'data';
+        const data = e[key];
+        console.log("PostMessage Data:", data); 
+        receiveMessage(data);  // Send to main page for update on the page
+    },false);
+}
+
+function receiveMessage(responseJson){
+    console.log("Post message received!")
+    // TODO: Parse data from here to display on the screen depending on what is happening
+    // link, flag, data, op
+
+    // If a number or a data packet, then update the number on screen
+    if(responseJson["type"] == "msg"){
+        var numberP = document.getElementById("numberData"); 
+        console.log(responseJson["data"]); 
+        numberP.innerText = numberP.innerText + responseJson["data"]; 
+    }
+    else if(responseJson["type"] == "op"){
+        var flagP = document.getElementById("stateData"); 
+        if(responseJson["data"] == "EMERGENCY"){
+            document.body.style.background = "red"; 
+            flagP.innerText = "State:" + responseJson["data"]; 
+        }
+        // TODO: Add coins here
+        else if(responseJson["data"] == "QUARTER"){
+            flagP.innerText = "State:" + responseJson["data"]; 
+        }
+        else if(responseJson["data"] == "DIALING"){
+            flagP.innerText = "State:" + "RINGING"
+        }
+        else{
+            flagP.innerText = "State:" + responseJson["data"]; 
+        }
+    }
+    else if(responseJson["type"] == "flag"){
+        var flagP = document.getElementById("flagData"); 
+        flagP.innerText = "Flag: " + responseJson["data"]; 
+        flagP.style.visibility = "visible"; // Unhide the flag
+    }
+    else if(responseJson["type"] == "link"){
+        var stateP = document.getElementById("stateData"); 
+        stateP.innerText = "State: IN CALL"; 
+        var link = responseJson["data"]; 
+
+        // Trigger to only allow a single call at a time
+        if(audioPlayer == false){
+
+            // Play the audio
+            audioPlayer = new Audio(link);
+            audioPlayer.play();          
+
+            audioPlayer.addEventListener("ended", function(){
+                audioPlayer = false; // Allow the audio to be reused
+                stateP.innerText = "State: CALL ENDED"; 
+            }); 
+        }
+
+    }
 }

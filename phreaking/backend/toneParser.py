@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.fft import *
 from scipy.io import wavfile
+import time
 
 DEBUG = True 
 
@@ -10,12 +11,16 @@ entry_list = ["1", "2", "3", "A", "4", "5", "6", "B", "7", "8", "9", "C", "*", "
 
 other_dtmf = {
     "1700-2200" : "COIN", 
-    "350-440" : "DIAL"
+    "1050-1100" : "NICKEL", # NICKEL is one click at this frequency - https://www.tech-faq.com/frequencies-of-the-telephone-tones.html
+    "350-440" : "DIAL",
+    "852-960" : "EMERGENCY", # Really 853 but it's too close to '852' in the dials to work that way.
+    "100-600" : "SC5{Audi0_Engineering_Fr0m_ZacH}" # Flag
 }
 
-other_tones = [350, 440, 1700, 2200, 2600]
+other_tones = [100, 350, 440, 600, 800, 852, 960, 1050, 1100, 1700, 2200, 2600]
 code = {
-    2600: "DISCONNECT" # TODO: Change to 2600 - first person to solve should get a copy of this magazine (lolz) 
+    2600: "DISCONNECT", # First person to solve should get a copy of this magazine (lolz) 
+    800 : "QUARTER" # Quarter is one click at this frequency - https://www.tech-faq.com/frequencies-of-the-telephone-tones.html
 }
 
 all_tones = flat_list = [item for sublist in number_tones for item in sublist] + other_tones
@@ -92,7 +97,7 @@ def isCallValid(freqs, amp):
 
 def takeClosest(num):
    closest = min(all_tones,key=lambda x:abs(x-num))
-   if(abs(num - closest) > 15):
+   if(abs(num - closest) > 10):
        return 0
    return closest
 
@@ -109,6 +114,7 @@ def getNumberFromTones(freqs):
     except ValueError:
         return False
 
+    # Errors out if i can't find it.
     number = top_index * 4 + left_index
     number = entry_list[number]
     return number
@@ -133,26 +139,25 @@ def findTones(f):
     freqs_real = [*set(freqs_real)]
     if DEBUG == True: print("Parsed Frequencies:", freqs_real)
 
+    # Not valid...
     isValid = isCallValid(freqs_real, amp)
-    print(isValid)
     if(isValid == False):
         return False, False
     
-
     # Number or operator
     if(len(freqs_real) == 2):
         op = getNumberFromTones(freqs_real)
-
+        print("Op after get number:", op)
         if(op == False):
             # Operator codes
             return parseOperatorDTMF(freqs_real) 
         return op, False
     
-    else: # Singles
+    else: # Single tones
         # Operator codes, which are single tone
         op = code.get(freqs_real[0])
         if(op == None):
-            return "", False
+            return False, False
         return op, True
 
 def parseOperatorDTMF(freqs):

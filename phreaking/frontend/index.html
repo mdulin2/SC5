@@ -5,7 +5,7 @@
     <head>
         <!-- -->
     </head>
-    <body>
+    <body onload="initializeIFrameListenerMainPage()">
         <p>
             <!-- Key pad, quarter deposit and more go here.  -->
             <button id="startCall" onClick="listenToAudio()">
@@ -24,13 +24,25 @@
         -->
         <iframe id="soundBar" src="dial.html">
         </iframe>
+        <p id="numberData">
+            Dialed Number: 
+        </p>
+        <p id="stateData">
+            State:
+        </p>
+        <p id="flagData" style="visibility:hidden">
+            Flag:
+        </p>
 
         <!--<iframe src="https://onlinetonegenerator.com/dtmf.html"></iframe>-->
     </body>
-
 </html>
  
 
 <script type="text/javascript" src="audio.js">
-    
+
+</script>
+
+<script type="text/javascript" src="poc.js">
+
 </script>
