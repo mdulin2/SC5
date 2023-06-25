@@ -1,6 +1,14 @@
 // https://stackoverflow.com/questions/55975895/stream-audio-over-websocket-with-low-latency-and-no-interruption
 
 
+// Constants
+var host = "localhost"
+var http_port = "8001"; 
+var wss_port = "8000"; 
+var http_host = "http://" + host + ":" + http_port; 
+var wss_host = "ws://" + host + ":" + wss_port; 
+
+
 // Globals for the timed intervals. Required to cancel the operations
 var higherLevelIntervalId = -1; 
 var lowerLevelIntervalId = -1; 
@@ -8,7 +16,6 @@ var socketInitialized = false;
 
 // Websocket communication kept with the server for processing
 var socket;  
-var url = "localhost:8000"
 
 // Call this function to setup the websockets
 var oscillator1; 
@@ -23,17 +30,14 @@ other_dtmf = {
     "DIAL": [350, 440]
 }
 
-// Initialize the numbers table
-//createDialNumbers(); 
-
 async function initializeCall(){
-    const response = await fetch("http://localhost:8001/startCall"); 
+    const response = await fetch(http_host + "/startCall"); 
 
     var jsonData = await response.json();
     var call_id = jsonData['callId']; 
 
     // Create the websocket with a particular caller id
-    socket = new WebSocket('ws://' + url + "/" + call_id);
+    socket = new WebSocket(wss_host + "/" + call_id);
 
     // Websocket is ready to go!
     socket.addEventListener("open",
@@ -133,13 +137,41 @@ async function cancelAudio(){
     document.getElementById("numberData").innerText = "";
     document.getElementById("flagData").innerText = "";
     document.getElementById("stateData").innerText = "";
+    document.getElementById("moneyData").innerText = "";
 
 }
 
-function createDialNumbers(){
-    var tableNode = document.getElementById("dialTable");
+async function createPhoneBook(){
+    var tableNode = document.getElementById("phoneTable");
+    var response = await fetch(http_host + "/phoneBook"); 
 
-    //var tableNode = iframe.getElementById("dialTable")
+    var responseJsonTmp = await response.json(); 
+    var responseJson = responseJsonTmp['phoneBook'];
+
+    // Iterate over each item in the phone book
+    for (var rowIndex = 0; rowIndex < responseJson.length; rowIndex++){
+        // https://www.w3schools.com/jsref/met_table_insertrow.asp
+        var row = tableNode.insertRow(rowIndex);  // Add the row
+
+        rowData = responseJson[rowIndex]; 
+
+        // For each item that we want to add -- Name, phone and international or not
+        for (var columnIndex = 0; columnIndex < rowData.length; columnIndex++){
+            var cell = row.insertCell(columnIndex);
+            if(columnIndex == 2){
+                var cell = row.insertCell(columnIndex);
+                cell.innerText = rowData[columnIndex] == "0" ? false : true;       
+            }
+            else{
+                cell.innerText = rowData[columnIndex];
+            }
+        }
+    }
+}
+
+function createDialNumbers(){
+
+    var tableNode = document.getElementById("dialTable");
 
     for (var rowIndex = 0; rowIndex < 4; rowIndex++){
         // https://www.w3schools.com/jsref/met_table_insertrow.asp
@@ -194,7 +226,7 @@ function generateButtonTone(freq1, freq2, time){
 }
 
 // Setup a postMessage listener for the 'dial' to 'index' communication
-function initializeIFrameListenerMainPage(){
+async function initializeIFrameListenerMainPage(){
     window.addEventListener('message', e => {
 
         // TODO: Wrong domain check
@@ -206,58 +238,79 @@ function initializeIFrameListenerMainPage(){
         console.log("PostMessage Data:", data); 
         receiveMessage(data);  // Send to main page for update on the page
     },false);
+
+    await createPhoneBook(); 
 }
 
-function receiveMessage(responseJson){
+function receiveMessage(responseJsonAll){
     console.log("Post message received!")
-    // TODO: Parse data from here to display on the screen depending on what is happening
     // link, flag, data, op
 
-    // If a number or a data packet, then update the number on screen
-    if(responseJson["type"] == "msg"){
-        var numberP = document.getElementById("numberData"); 
-        console.log(responseJson["data"]); 
-        numberP.innerText = numberP.innerText + responseJson["data"]; 
-    }
-    else if(responseJson["type"] == "op"){
-        var flagP = document.getElementById("stateData"); 
-        if(responseJson["data"] == "EMERGENCY"){
-            document.body.style.background = "red"; 
-            flagP.innerText = "State:" + responseJson["data"]; 
+    // Iterate over all of the state changes in the list
+    for(var i = 0; i < responseJsonAll.length; i++ ){
+
+        var responseJson = responseJsonAll[i]; // Get a single entry
+
+        // If a number or a data packet, then update the number on screen
+        if(responseJson["type"] == "msg"){
+            var numberP = document.getElementById("numberData"); 
+            numberP.innerText = numberP.innerText + responseJson["data"]; 
         }
-        // TODO: Add coins here
-        else if(responseJson["data"] == "QUARTER"){
-            flagP.innerText = "State:" + responseJson["data"]; 
+        else if(responseJson["type"] == "op"){
+            var flagP = document.getElementById("stateData"); 
+            if(responseJson["data"] == "EMERGENCY"){
+                document.body.style.background = "red"; 
+                flagP.innerText = "State:" + responseJson["data"]; 
+            }
+            // TODO: Add other coins here
+            else if(responseJson["data"] == "QUARTER"){
+                flagP.innerText = "State:" + responseJson["data"]; 
+                var moneyP = document.getElementById("moneyData"); 
+                moneyP.innerText = responseJson["state"]; 
+                moneyP.style.visibility = "visible"; // Unhide the flag
+            }
+            else if(responseJson["data"] == "DIALING"){
+                flagP.innerText = "State:" + "RINGING"
+            }
+            else if(responseJson["data"] == "CLEAR"){
+                var numberP = document.getElementById("numberData"); 
+                numberP.innerText = "Dialed Number: "; 
+            }
+            else{
+                flagP.innerText = "State:" + responseJson["data"]; 
+            }
         }
-        else if(responseJson["data"] == "DIALING"){
-            flagP.innerText = "State:" + "RINGING"
+        else if(responseJson["type"] == "flag"){
+            var flagP = document.getElementById("flagData"); 
+            flagP.innerText = "Flag: " + responseJson["data"]; 
+            flagP.style.visibility = "visible"; // Unhide the flag
+        }
+        else if(responseJson["type"] == "link"){
+            var stateP = document.getElementById("stateData"); 
+            if(responseJson["state"] != ""){
+                stateP.innerText = "State: " + responseJson["state"];
+            }
+            else{
+                stateP.innerText = "State: IN CALL"; 
+            }
+
+            var link = responseJson["data"]; 
+
+            // Trigger to only allow a single call at a time
+            if(audioPlayer == false){
+
+                // Play the audio
+                audioPlayer = new Audio(link);
+                audioPlayer.play();          
+
+                audioPlayer.addEventListener("ended", function(){
+                    audioPlayer = false; // Allow the audio to be reused
+                    stateP.innerText = "State: CALL ENDED"; 
+                }); 
+            }
         }
         else{
-            flagP.innerText = "State:" + responseJson["data"]; 
+            console.log("Invalid change...", responseJson)
         }
-    }
-    else if(responseJson["type"] == "flag"){
-        var flagP = document.getElementById("flagData"); 
-        flagP.innerText = "Flag: " + responseJson["data"]; 
-        flagP.style.visibility = "visible"; // Unhide the flag
-    }
-    else if(responseJson["type"] == "link"){
-        var stateP = document.getElementById("stateData"); 
-        stateP.innerText = "State: IN CALL"; 
-        var link = responseJson["data"]; 
-
-        // Trigger to only allow a single call at a time
-        if(audioPlayer == false){
-
-            // Play the audio
-            audioPlayer = new Audio(link);
-            audioPlayer.play();          
-
-            audioPlayer.addEventListener("ended", function(){
-                audioPlayer = false; // Allow the audio to be reused
-                stateP.innerText = "State: CALL ENDED"; 
-            }); 
-        }
-
     }
 }

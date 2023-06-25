@@ -81,31 +81,28 @@
         - https://ia801606.us.archive.org/30/items/bstj39-6-1381/bstj39-6-1381_text.pdf
 
 
-## Challenge Ideas
+## Challenges
 - Unseen character:
     - Type in a 'D' or something like that not on the screen 
     - Demonstrates the ability to create arbitrary tones
     - Currently, sending A, B, C or D will output a flag
-- Long distance call: 
+- Coin tone (red box):
+    - Must create this frequency yourself. 
+    - Either a coin, nickel or quarter sound to get $10 will work
+    - Originally, I thought about doing verification with a real vs. fake press. But, it was going to be cumbersome and possible to spoof
+    - https://en.wikipedia.org/wiki/Red_box_(phreaking)
+    - http://www.phonelosers.org/redbox/
+- Free long distance call (blue box): 
     - Type in a number like normal 
     - Use the 2600 frequency 
     - Pass in a long distance number
     - If right number, then send back the flag.
     - Blue box
-- Coin tone: 
-    - Pass in a quarter, dime or tone like that. 
-    - Get a free call from using that. 
-    - How to track REAL coin entry vs. fake one? Could store that as a field in the websocket? I don't people will know how to spoof this request anyway.
-    - Red box
-    - The different amount of tones reflected what type of coin to use. Unfortantly, my code can only pick out the frequencies and not clicks. Close enough though ;) 
-    - Unsure HOW I'm going to implement this rn.
-    - https://en.wikipedia.org/wiki/Red_box_(phreaking)
-    - http://www.phonelosers.org/redbox/
-- Computer discovery: 
-    - Modem dials
-    - Call forwarding
 - Calling card fraud: 
-    - Trying a bunch of calling cards... could be fun!
+    - Have to find a valid call card. 
+    - If they get a proper call card, then they get the flag. 
+    - By far the hardest. Requires programmatically creating signals.
+    - Should be a HUGE point question.
 
 
 ## Running
@@ -116,14 +113,20 @@
     - websocket: ``python3 WebsocketServer.py``
     - HTTP: ``python3 HttpServer.py``
 
+## Phone Numbers
+- Local numbers: 
+    - Only seven digits to simulate original numbers
+    - 205 for the prefix - change to Spokane area code
+    - 205-1234
+- Out of town: 
+    - 10 digits
+    - 360 area code - Centralia
+- International: 
+    - 64 international code 
 
 ## TODO 
-- Add phone book functionality
-    - Have multiple callers that can be returned
-    - Get funny audios to send over
-- Long distance call validation:
-- Integration coin into UI (or not):
-    - Add request to VERIFY the process for coin being sent
-    - If HTTP and websocket noise don't match, give them a flag.
-- Update state change on UI
 - Make UI look nice
+- Add proper audio files
+- Better state handling between calls and other states of the calling process
+- Fix 'BAD CALL' always appearing on the DIAL call.
+- Have a signal to START and STOP a call. Unsure what this signal this would be though...

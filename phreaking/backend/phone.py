@@ -1,14 +1,13 @@
 from toneParser import * 
 from dbHandler import * 
 import time
+import copy 
 
 '''
 Based on the previous state and the information being dialed, handle the state changes
-TODO: Prior to this, the following should happen: 
 - Transfer '.wav' file here via websocket
 - Save it to the file system 
 - Call this function to update state
-- Delete the file 
 - Continue on :) 
 '''
 def handleDial(f, call_id):
@@ -21,6 +20,8 @@ def handleDial(f, call_id):
     lastUpdate = callInfo[7]
     currentRecording = callInfo[6]  
     state = callInfo[3]  
+    phoneNumber = callInfo[1]  
+    userFunds = callInfo[4]  
 
     # Place holder
     # types: data, flag, link, op
@@ -39,65 +40,154 @@ def handleDial(f, call_id):
     if(d == False): 
         add_frame_data(call_id,currentRecording+1, lastUpdate)
         return False
-    
-    ## TODO: Coin sound without real coin - mirror packet check 
-    
+        
     # Just dialing a number. Add the number then move on.
     if(op == False):
         previousChars = callInfo[1]
         add_char_to_call(call_id, previousChars + d)
         add_frame_data(call_id,currentRecording+1, currentRecording+1)
 
-        # TODO: Return an array instead of dict to support MULTIPLE updates
+        # The general case
+        response_data["data"] = d
+        response_data["type"] = "msg"
+
+        # If they send a letter NOT on the normal key pad.
         if(d == "A" or d == "B" or d == "C" or d == "D"):
-            response_data["data"] = "SC5{Military_Ph0nes_Used_T0_Support_Th3se!}"
-            response_data["type"] = "flag"         
-        else:
-            response_data["data"] = d
-            response_data["type"] = "msg"
+            response_data1 = copy.deepcopy(response_data)
+            response_data1["data"] = "SC5{Military_Ph0nes_Used_T0_Support_Th3se!}"
+            response_data1["type"] = "flag"  
+            response_data = [response_data,response_data1]
         return response_data
 
     # Add a quarter to the system
     elif(d == "COIN"):
-        add_cash_amount(call_id, 25 + callInfo[4]) 
+        add_cash_amount(call_id, 25 + userFunds) 
         add_frame_data(call_id,currentRecording+1, currentRecording+1)
         response_data["data"] = d
         response_data["type"] = "op"
+        if(userFunds >= 500): # $5
+            response_data2 = copy.deepcopy(response_data) 
+            response_data2["type"] = "flag"    
+            response_data2["data"] = "SC5{Stealing_m0ney_fr0m_telec0m_1s_f1ne}" 
+            response_data = [response_data, response_data2]
+
         return response_data
     
     # Add a quarter to the system
     elif(d == "QUARTER"):
-        add_cash_amount(call_id, 25 + callInfo[4]) 
+        add_cash_amount(call_id, 25 + userFunds) 
         add_frame_data(call_id,currentRecording+1, currentRecording+1)
         response_data["data"] = d
         response_data["type"] = "op"
+        response_data["state"] = (25 + userFunds) / 100 # Shift the decimals over
+
+        if(userFunds >= 500): # $5
+            response_data2 = copy.deepcopy(response_data) 
+            response_data2["type"] = "flag"    
+            response_data2["data"] = "SC5{Stealing_m0ney_fr0m_telec0m_1s_f1ne}" 
+            response_data = [response_data, response_data2]
         return response_data 
 
     # Add a nickel to the system
     elif(d == "NICKEL"):
-        add_cash_amount(call_id, 5 + callInfo[4]) 
+        add_cash_amount(call_id, 5 + userFunds) 
         add_frame_data(call_id,currentRecording+1, currentRecording+1)
         response_data["data"] = d
         response_data["type"] = "op"
+
+        if(userFunds >= 500): # $5
+            response_data2 = copy.deepcopy(response_data) 
+            response_data2["type"] = "flag"    
+            response_data2["data"] = "SC5{Stealing_m0ney_fr0m_telec0m_1s_f1ne}" 
+            response_data = [response_data, response_data2]
         return response_data
     
     elif(d == "DIAL"):
         
-        # IF we were in the DISCONNECT state before
-        if(state == 2): 
-            # TODO: Check if this is an international phone call before sending this back
+        # Get information about the phone number
+        numberInfo = get_phone_number_info(phoneNumber)
+            
+        # Calling card check 
+        if(state == 4):
+            if(isValidCard(phoneNumber) == False): # SO CLOSE. But not enough.
+                response_data["data"] = "/bad_calling_card.wav"
+                response_data["type"] = "link" 
+
+                response_data1 = copy.deepcopy(response_data) 
+                response_data1["data"] = "BAD CARD"
+                response_data1["type"] = "op" 
+                add_frame_data(call_id,currentRecording+1, currentRecording+1)
+
+                return [response_data,response_data1]
+
+            else: # If the call is valid and the state is the DISCONNECT state
+                response_data["data"] = "/correct.wav"
+                response_data["type"] = "link" 
+
+                response_data1 = copy.deepcopy(response_data)
+                response_data1["data"] = "SC5{Jeff_M0ss_did_this_at_GU_Back_in_the_day}"
+                response_data1["type"] = "flag" 
+                add_frame_data(call_id,currentRecording+1, currentRecording+1)
+
+                return [response_data,response_data1]
+
+        # Calling card special state
+        if(phoneNumber == "7"): 
+            print("Inside - why no calling card?")
+            add_state_to_call(call_id, 4) # 4: Entered calling card state
+            add_char_to_call(call_id, "")
+            response_data["data"] = "/type_in_your_calling_card.wav"
+            response_data["type"] = "link"
+            response_data["state"] = "CALLING CARD"
+
+            response_data1 = copy.deepcopy(response_data)
+            response_data1["type"] = "op" 
+            response_data1["data"] = "CLEAR" 
+            add_frame_data(call_id,currentRecording+1, currentRecording+1)
+
+            return [response_data,response_data1]  
+        
+        # If the number doesn't exist
+        if(numberInfo == False):
+            # TODO - Add real ring
+            response_data["data"] = "/audio_files/BadCall.mp3"
+            response_data["type"] = "link"
+            response_data["state"] = "BAD CALL"
+            response_data1 = copy.deepcopy(response_data)
+            response_data1["type"] = "op" 
+            response_data1["data"] = "CLEAR" 
+            add_frame_data(call_id,currentRecording+1, currentRecording+1)
+
+            return [response_data, response_data1]
+        
+        # IF we were in the DISCONNECT state before and we're in a valid international call
+        if(state == 2 and (numberInfo[2] == True or numberInfo[2] == 1)): 
             response_data["data"] = "SC5{Blue_B0x_1s_Phreaking_Me_0uT!}"
             response_data["type"] = "flag"
-            return response_data
-        
-        # 1 is the 'CALL' state
-        add_state_to_call(call_id, 1)
+            add_frame_data(call_id,currentRecording+1, currentRecording+1)
 
-        # Return a 'recording' or a flag
-        # TODO Call people by going to address book and finding data
-        link = "http://localhost:3000/audio_files/gettysburg10.wav"
+            return response_data
+
+        # Don't want to convert state badly here
+        if(state != 2 and state != 4):
+            # 1 is the 'CALL' state
+            add_state_to_call(call_id, 1) 
+
+        # If it's an international call, the end user needs to have money for this
+        if(numberInfo[2] == True or numberInfo[2] == 1):
+            if(userFunds < 500): # $5
+                response_data["data"] = "/no_money.wav" # Play that they need more money - TODO: Add real ring
+                response_data["type"] = "link"
+                add_frame_data(call_id,currentRecording+1, currentRecording+1)
+
+                return response_data           
+
+        # Enough money or not international call
+        link = numberInfo[3]
         response_data["data"] = link
         response_data["type"] = "link"
+        add_frame_data(call_id,currentRecording+1, currentRecording+1)
+
         return response_data
     
     # Add a nickel to the system
@@ -106,28 +196,25 @@ def handleDial(f, call_id):
         response_data["data"] = d
         response_data["type"] = "op"
         return response_data
-    
-    elif("SC5{" in d):
-        add_frame_data(call_id,currentRecording+1, currentRecording+1)
-        response_data["data"] = d
-        response_data["type"] = "flag"    
-        return response_data
 
-    # 2600 Hz tone
+    # 2600 Hz tone - blue box
     elif("DISCONNECT" in d):
-
-        print("State: ", state, state == 1)
-        time.sleep(3) 
 
         # Check if the state is 'IN CALL'. That's super important for this attack to work
         if(state == 1): # Ready for another call
             add_frame_data(call_id,currentRecording+1, currentRecording+1)
             # 2 is the 'DISCONNECT' state
             add_state_to_call(call_id, 2)
+            add_char_to_call(call_id, "") # Clear number if this is true to add the new number.
+
             response_data["data"] = d
             response_data["type"] = "op"   
             response_data["state"] = "DIALING"  
+            response_data1 = copy.deepcopy(response_data)
 
+            response_data1["data"] = "CLEAR"
+            response_data1["type"] = "op"   
+            response_data = [response_data,response_data1]
         elif(state == 0): # State is something else...
             # 3 is the 'END' state
             add_state_to_call(call_id, 3)
@@ -135,16 +222,11 @@ def handleDial(f, call_id):
             response_data["type"] = "op"   
             response_data["state"] = "END"            
         
-        # Ignore other stray calls to this 
-
         return response_data
 
     # Nothing no update at all. Need to advance the frames ahead though.
     else: 
         add_frame_data(call_id,currentRecording+1, lastUpdate)
-
-    # TODO Response to the user. Either a tone to be played or a .wav file
-    # Should have 'default' phone numbers and fun ones as well
 
 if __name__ == "__main__":
     '''

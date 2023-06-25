@@ -14,7 +14,7 @@ other_dtmf = {
     "1050-1100" : "NICKEL", # NICKEL is one click at this frequency - https://www.tech-faq.com/frequencies-of-the-telephone-tones.html
     "350-440" : "DIAL",
     "852-960" : "EMERGENCY", # Really 853 but it's too close to '852' in the dials to work that way.
-    "100-600" : "SC5{Audi0_Engineering_Fr0m_ZacH}" # Flag
+    #"100-600" : "SC5{Audi0_Engineering_Fr0m_ZacH}" # Flag
 }
 
 other_tones = [100, 350, 440, 600, 800, 852, 960, 1050, 1100, 1700, 2200, 2600]
@@ -57,24 +57,20 @@ def analyzeFile(file, start_time, end_time):
     curHit = 0
     idxs = []
 
-    # TODO: More sophiscated code on finding these values
-    # Finding the highest values then cut it in half to do a check maybe? 
-    # Or, ensuring that the value is the HIGHEST or SECOND HIGHEST that we've seen
-    # Could do some weird detection  based upon HOT values from above too. Hmmm.
-    # Take only valid frequencies (even after rounding?) Would mitgiate A LOT of these problems.
+    # TODO: Improve the parsing for valid entries
+    # Right now, it's finding all the indexes with amplitudes greater than 1e6. 
+    # If that's true, then it adds index to find the frequency later.
+    # Potential improvements: Click detection would be sick.
     for elt in np.abs(yf):
         if(elt > 1e6 and (curHit + 30) < index):
             curHit = index
             idxs.append(index) 
         
         index += 1
-        
-    #plt.plot(xf, np.abs(yf))
-    #plt.show()
 
-    # Get the most dominant frequency and return it
-    #idx = np.argmax(np.abs(yf))
-    #print(idx) 
+
+    # Get all elements that we loud enough 
+    # They get filtered down the road by checking proximity to real frequencies
     freqs = []
     for idx in idxs:
         freq = xf[idx]
@@ -122,7 +118,8 @@ def getNumberFromTones(freqs):
 
 def findTones(f):
     # Sample rate is per second. To get the amount of time to listen it's sample_rate * seconds
-    # TODO: Fix the amount of time it spends per audio file
+
+    # TODO: Fix this check. Unsure if it's accurate
     seconds = 0.5
     sample_rate = 48000
 

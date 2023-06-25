@@ -7,8 +7,12 @@ import time
 import os
 import json
 
-from phone import handleDial, add_call
-
+from phone import handleDial
+from dbHandler import initializeInformation
+'''
+Initialization process
+'''
+initializeInformation()
 
 async def handlePhoneCall(websocket, path):
     async for message in websocket:
@@ -21,10 +25,14 @@ async def handlePhoneCall(websocket, path):
             output_file.write(message)
         
         # Convert the file from 'webm' to 'wav' for processing
+        # Check return code
         subprocess.call(f'ffmpeg -i "{filepath}.webm" -vn "{filepath}.wav" -y -hide_banner -loglevel error', shell=True)
 
         call_id = path.replace("/", "")
         m = handleDial(filepath + ".wav", call_id)
+
+        if(type(m) == dict):
+            m = [m]
 
         # Only send back data if 'm' is useful.
         if(m != False and m != None):
@@ -36,5 +44,5 @@ async def handlePhoneCall(websocket, path):
 
 # Event loop for the websocket
 asyncio.get_event_loop().run_until_complete(
-    websockets.serve(handlePhoneCall, 'localhost', 8000))
+    websockets.serve(handlePhoneCall, "0.0.0.0", 8000))
 asyncio.get_event_loop().run_forever()
