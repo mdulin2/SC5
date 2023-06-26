@@ -7,7 +7,7 @@
 - You know the sounds that your phone makes when you type in a number? Beep! These tones are special; they are encoded with information about what number is being dialed using Dual Tone Multi-Frequency (DTMF). 
 - Besides 0-9,*,#, the original phones included A,B,C,D on them as well. However, commerical products didn't have them. Can you produce one of the letters? 
 - Hint: These codes use Dual Tone Multi-Frequency (DTMF). This means you'll beed a way to play two frequencies at once in order to produce these signals. 
-
+- Hint: Use 'https://onlinetonegenerator.com/multiple-tone-generator.html' to generate DTMF codes. 
 
 ## Challenge 2 - Free Money! (6) 
 - When you deposit a coin into a payphone, the <i>sound</i> is what signifies to the company that money was deposited. By <i>spoofing</i> this sound, it is possible to deposit fake coins! To get the flag, deposit $10 worth of fake coins. 
