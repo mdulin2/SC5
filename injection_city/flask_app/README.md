@@ -21,3 +21,9 @@
 ## Cross Site Scripting 
 - Injecting JavaScript into the page 
 - Difficulty: 4/10 
+
+## SQLi
+- Reading the flag from a different table than what the user has access to 
+- Difficulty: 6/10
+
+## NoSQLi

@@ -16,6 +16,8 @@
 - GraphQL (Kevin):
 	- Bad authorization allows for the returning of too much data
 - Known vulnerability exploit
+- **user agent**: 
+	- Set the user agent to a special value to bypass auth
 - **amazon**(2): 
 	- One time password fill up
 	- Statistiics on this occuring
@@ -23,8 +25,13 @@
 	- Race condition
 - **Blackboard**:
 	- Default creds
-- SQL injection
-- XSS
+- **Injection city** (6): 
+	- Command injection 
+	- Argument injection
+	- Code injection
+	- Template injection
+	- SQL injection
+	- XSS
 - CSRF
 - IDOR
 - Side channel

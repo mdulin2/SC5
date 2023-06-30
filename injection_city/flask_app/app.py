@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 from slimit import ast
 from slimit.parser import Parser
 from slimit.visitors import nodevisitor
+from SimpleSql import * 
 
 '''
 Add JS styling
@@ -19,12 +20,14 @@ Add REAL spaces
 Make the container 'readonly' except for a tmp directory with the databases
 
 Challenges to add: 
-- SQLi 
 - NoSQLi
-- XSS? 
 '''
 
 app = Flask(__name__)
+
+@app.route('/')
+def index():
+   return render_template('index.html') 
 
 # Command injection
 # http://127.0.0.1:5000/ping/?domain=google.com;%20cat%20/flags/flag1.txt
@@ -33,7 +36,6 @@ def ping():
    domain = request.args.get('domain') 
    if(domain == None):
       return "Please add commands to the 'domain' parameter"
-
 
    # Parent process exit...
    if(os.fork() != 0):
@@ -79,7 +81,7 @@ def my_name():
    os.setuid(1001) 
 
    # Read the flag in - can reference the flag as an object now.
-   flagfile = open("flags/flag2.txt", 'r')
+   flagfile = open("/flags/flag2.txt", 'r')
    flag = flagfile.read()
 
    return render_template_string(t, flags=flag, flag=flag)
@@ -146,7 +148,7 @@ def date():
    return render_template('ping.html', contents=output + ", error: " + error, command=command)
 
 # Code injection - exec
-# http://127.0.0.1:5000/building_data?name=a&address=%27%0Aprint(open(%27/flags/flag4.txt%27).read())%0A%27%20c=%27d
+# http://127.0.0.1:5000/building_data?name=a&address=%27%0Aprint(open(%27/flags/flag4.txt%27).read())%0A%27
 @app.route('/building_data')
 def building():
 
@@ -209,8 +211,6 @@ def filter_on_event(tag):
 
    for tag in childTags:
       keys = list(tag.attrs.keys())
-      print(tag)
-      print(keys)
       for key in keys:
          if(key[0:2] == "on"):
             return True
@@ -233,7 +233,6 @@ def parse_xss(html1):
          for key in keys:
             if(key[0:2] == "on"):
               data = tag[key]
-              print(data)
               parser = Parser()
               tree = parser.parse(data)
               for node in nodevisitor.visit(tree):
@@ -242,4 +241,43 @@ def parse_xss(html1):
 
    return False
 
-app.run(host='0.0.0.0', port=5000)
+## SQL injection
+## Solution: "' UNION select * from flag; -- "
+@app.route('/search', methods=["GET", "POST"])
+def search():
+
+   search = ""
+   if 'search' in request.form:
+      search = request.form['search']
+
+   ## Username and password field ## 
+   if(os.fork() != 0):
+       time.sleep(5)
+       sys.exit(1)
+ 
+   # flag6 user
+   os.setuid(1005) 
+
+   query = ""
+   if(search != ""):
+      query = "SELECT letter, info FROM search WHERE letter = '{}'".format(search)
+
+   sql_response = ""
+   if(search != ""):
+      rows = searchDb(query) 
+
+      # TODO: SQL query HERE
+      # Query: SELECT username, password FROM login_table WHERE username = {} and password = {}
+      sql_response = rows
+
+   return render_template('search.html', userInput=query, flag=None, response=sql_response)
+
+
+## TODO: NoSQL Injection
+
+
+if __name__ == "__main__":
+   create_table()
+   addData()
+
+   app.run(host='0.0.0.0', port=5000)

@@ -4,16 +4,12 @@ FROM ubuntu:22.04 as base
 RUN apt-get update -y && DEBIAN_FRONTEND="noninteractive" TZ="America/New_York" apt install openssh-server vim python3 git curl bsdmainutils tmux tcpdump python3-pip ffmpeg -y
 
 # include ping
-RUN apt-get install iputils-ping -y
+RUN apt-get install iputils-ping sqlite -y
 
 # Start script 
 COPY start.sh start.sh 
 RUN chmod +x start.sh
 RUN pip install flask beautifulsoup4 slimit
-
-# Frontend code
-RUN mkdir /app
-ADD flask_app /app
 
 RUN mkdir /flags
 ADD flags /flags
@@ -43,9 +39,20 @@ RUN useradd -m -p flag5 -s /bin/bash flag5
 RUN chown -R flag5:flag5 /flags/flag5.txt
 RUN chmod 400 /flags/flag5.txt
 
-
+# uid 1005
+RUN useradd -m -p flag6 -s /bin/bash flag6
+RUN chown -R flag6:flag6 /flags/flag6.txt
+RUN chmod 400 /flags/flag6.txt
 
 ADD ./test_file.txt /tmp/test_file.txt
 RUN chmod 777 /tmp/test_file.txt
+
+# Frontend code
+RUN mkdir /app
+ADD flask_app /app
+
+# Restrict permission to ensure that only the 'flag5' user can access this
+RUN chown -R flag6:flag6 /app/search.db 
+RUN chmod 700 /app/search.db 
 
 ENTRYPOINT ["/start.sh"]

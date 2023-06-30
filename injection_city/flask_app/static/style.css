@@ -1,0 +1,127 @@
+body {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+  }
+ 
+  .titlename{
+    font-family: 'Lobster', cursive;
+    font-size: 100px;
+    color: #0b16ae;
+    margin-top: 20px;
+  }
+ 
+  .container {
+    height: 450px;
+    width: 400px;
+    position: relative;
+  }
+ 
+  .container * {
+    position: absolute;
+  }
+ 
+  .house {
+    top: 50%;
+    left: 75px;
+    height: 200px;
+    width: 260px;
+    background:brown;
+    display:inline-block;
+
+  }
+  .house::before {
+    content: '';
+    position: absolute;
+    top: -95px;
+    left: 33px;
+    height: 183px;
+    width: 183.5px;
+    background: brown;
+    transform: rotate(45deg);
+    border-top: 10px solid black;
+    border-left: 10px solid black;
+    z-index: 2
+  }
+  .house::after {
+    content: '';
+    position: absolute;
+    top: -70px;
+    left: 15px;
+    height: 70px;
+    width: 30px;
+    background: black;
+    z-index: 1;
+  }
+  .window {
+    top: 35px;
+    left: 25px;
+    height: 80px;
+    width: 70px;
+    background: #96ebff;
+    z-index: 3;
+  }
+  .window::before,
+  .window::after {
+    content: '';
+    position: absolute;
+    background: silver;
+  }
+  .window::before {
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: 1px;
+  }
+  .window::after {
+    top: 50%;
+    height: 1px;
+    width: 100%;
+  }
+ 
+  .door {
+    top: 70px;
+    left: 150px;
+    height: 130px;
+    width: 70px;
+    background: black;
+    z-index: 3;
+  }
+  .door::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+    border: 1px solid #FFF;
+    background: #96ebff;
+  }
+ 
+  .picture {
+    left: 50px; 
+    position: relative;
+    z-index: 4;
+  }
+  .flower {
+    bottom: 0;
+    height: 60px;
+    width: 60px;
+    background: green;
+    z-index: 4;
+    border-radius: 0px 100px 0px 0px;
+    box-shadow: 1px -1px 7px rgba(0, 0, 0, .5);
+  }
+
+  .parent{
+    overflow-x: scroll;
+    overflow: visible;
+    white-space: nowrap;
+    width:auto;
+    display:inline;
+    text-align:justify;
+    display:flex;
+    width: 3000px;
+    height: 1000px;
+}

@@ -1,11 +1,81 @@
-<html>
-
-  <head>
-    <title>Templating in Flask</title>
-  </head>
-  <body>
-    <h1>Hello {{ user }}!</h1>
-    <p>Welcome to the world of Flask!</p>
-  </body>
-</html>
-
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Injection City</title>
+</head>
+ 
+<body>
+<h1>Injection City</h1>
+<!--<h1 class="titlename">Challenge 1</h1>-->
+<div class="parent">
+    <div class="container">
+        <div class="house">
+          <div class="picture">
+            <!--<img src="https://maxwelldulin.com/static/StrikeoutDEFCON29.JPG" class="picture"/>-->
+            <a href="/ping/?domain=google.com">Command Injection - 4</a>
+          </div>
+          <div class="door">
+          </div>
+          <div class="flower"></div>
+          <div class="window"></div>
+        </div>
+    </div>
+    <div class="container">
+      <div class="house" style="height:600px">
+        <div class="picture">
+          <a href="/head/?d=1000">Argument Injection - 7</a>
+        </div>
+        <div class="door"></div>
+        <div class="flower"></div>
+        <div class="window"></div>
+      </div>
+    </div>
+  <div class="container">
+    <div class="house" style="height:400px">
+      <div class="picture">
+        <a href="/name/?name=Your Name">Template Injection - 6</a>
+      </div>
+      <div class="door">
+      </div>
+      <div class="flower"></div>
+      <div class="window"></div>
+    </div>
+  </div>
+    <div class="container">
+      <div class="house" style="height:1500px">
+        <div class="picture">
+          <a href="/building_data?name=John Jacobs&address=101 Main">Code Injection - 8</a>
+        </div>
+        <div class="door"></div>
+        <div class="flower"></div>
+        <div class="window"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="house">
+        <div class="picture">
+          <a href="/xss">Cross Site Scripting (XSS) - 4</a>
+        </div>
+        <div class="door"></div>
+        <div class="flower"></div>
+        <div class="window"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="house">
+        <div class="picture">
+          <a href="/search">SQL Injection - 5</a>
+        </div>
+        <div class="door"></div>
+        <div class="flower"></div>
+        <div class="window"></div>
+      </div>
+    </div>
+</div>
+</body>
+</html
