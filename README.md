@@ -43,20 +43,19 @@
 	- DEP
 	- Stack canaries
 	- ASLR
-- Basic memory corruption series: 
+- **Basic memory corruption series(5)**: 
 	- Corrupting a variable
 	- Controlling the variable
-	- Hijacking the control flow
+	- Hijacking the control flow on function pointer
+	- Hijacking the control flow on RET address
 	- Shellcode - your own code
-	- ROP - pwnable.kr-like challenge
-		- Could do JavaScript ROP to make it easier too? 
-	- Use after free
-	- https://github.com/mdulin2/SC3/tree/master/buf_series was used in years past. 
+	- Reused with mods from years past: https://github.com/mdulin2/SC3/tree/master/buf_series was used in years past. 
 - Pickle Challenge: 
 	- https://checkoway.net/musings/pickle/
 - Integer overflow/underflow/truncation:
 	- https://github.com/mdulin2/SMC2/tree/master/pokemon
 - JavaScript ROP
+- UAF
 	
 ## Linux (5)
 - Linux usage basics
