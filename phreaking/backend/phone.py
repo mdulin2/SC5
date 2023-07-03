@@ -182,7 +182,6 @@ def handleDial(f, call_id):
 
                 return response_data           
 
-        # Enough money or not international call
         link = numberInfo[3]
         response_data["data"] = link
         response_data["type"] = "link"

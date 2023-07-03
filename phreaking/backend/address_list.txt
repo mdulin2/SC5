@@ -1,7 +1,7 @@
 --- Out of town numbers
 209052100,Space Needle,0,/audio_files/gettysburg10.wav,1
 2065707572,Sleepless in Seattle,0,/audio_files/Sleepless.mp3,1
-5058425662,Saul Goodman,0,/audio_files/beterCallSaul.mp3,1
+5058425662,Saul Goodman,0,/audio_files/betterCallSaul.mp3,1
 18554380679,ZeroC00l,0,/audio_files/ZeroC00l.mp3,1
 --- Local numbers
 2051234,Maxwell Dulin,0,/audio_files/MaxDulin.m4a,1
