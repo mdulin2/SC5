@@ -1,7 +1,7 @@
 #!/bin/bash 
 
-sudo docker build . --tag no_char
-sudo docker run -d -p 2227:22 --cap-add=SYS_PTRACE -it no_char
+sudo docker build . --tag injection_city
+sudo docker run --privileged -d -p 5000:5000 -it injection_city
 
 # DEBUG version -- goes into the container automatically
 docker_ps=$(sudo docker ps -q | head -n1) 

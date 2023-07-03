@@ -1,0 +1,13 @@
+## Solution 
+- Set the ``User-Agent`` header to be ``CyberCupV``. 
+- There are a few ways to do this...
+- Using curl directly: 
+	- ``curl "http://localhost:8000/auth" --header "User-Agent: CyberCupIV"``
+- Browser dev tools: 
+	- Go into the developer tools of your browser. 
+	- Go to the ``network`` tab. 
+	- Right click on the ``auth`` request to click ``Edit and Resend``. 
+	- Add the header ``User-Agent: CyberCupIV`` to the request. 
+	- Send it!
+- A chrome extension to set the ``User-Agent``. 
+- Flag: SC5{HeadersCanBeSpoofed!ThisIsreal}

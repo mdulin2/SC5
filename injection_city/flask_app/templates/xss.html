@@ -1,0 +1,24 @@
+<html>
+<body>
+	<div class="centered"></div>
+	<div class="content">
+	  <h2>Echo Me - Cross Site Scripting</h2>
+	  {% if flag is none %}
+	  <p>
+		Hello friend. Get me to execute <code>alert(1)</code>, please. 
+	  </p>
+	  {% else %}
+	  <p>
+		{{flag}}
+	  </p>
+	  {% endif %}
+	  <form method="POST">
+		<input name="input">
+		<button type="submit">Submit</button>
+	  </form>
+	  <p>
+		<em>Your input:</em> <span id="input">{{userInput}}</span>
+	  </p>
+	</div>
+  </body>
+  </html>
