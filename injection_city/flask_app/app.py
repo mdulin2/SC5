@@ -15,7 +15,6 @@ from slimit.visitors import nodevisitor
 from SimpleSql import * 
 
 '''
-Add JS styling
 Add REAL spaces
 Make the container 'readonly' except for a tmp directory with the databases
 
@@ -49,8 +48,7 @@ def ping():
    p = subprocess.Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, encoding="utf-8")
    output, error = p.communicate()
 
-   print(output,error)
-   return render_template('ping.html',contents=output, command=command, domain=domain) 
+   return render_template('ping.html',contents=output, command=command, error=error, domain=domain) 
 
 # Template injection
 # https://secure-cookie.io/attacks/ssti/
@@ -68,7 +66,8 @@ def my_name():
     <title>What's your name?</title>
   </head>
   <body>
-    <p>{}</p>
+   <h1>What's your name? - Template Injection</title>
+    <pre>Input for jinja2 flask templating: {}</pre>
   </body>
 </html>
 """.format(name) 
@@ -115,12 +114,13 @@ def head():
    # flag3 user
    os.setuid(1002)
 
-   command = "head -c {} /tmp/test_file.txt".format(d).split(" ") 
+   command = "head -c {} /tmp/test_file.txt".format(d)
+   command_split = command.split(" ")
    print(command) 
 
-   p = subprocess.Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, encoding="utf-8") 
+   p = subprocess.Popen(command_split, stdin=PIPE, stdout=PIPE, stderr=PIPE, encoding="utf-8") 
    output, error = p.communicate()
-   return render_template('ping.html', contents=output + ", error: " + error, command=command)
+   return render_template('head.html', contents=output, error=error, command=command)
 
 # Argument injection 2
 # http://127.0.0.1:5000/date/?d=-f%20flags/flag3.txt
@@ -169,16 +169,17 @@ def building():
    command = "data['{}'] = '{}'".format(name, location)
    f = StringIO()
 
+   result = ""
+   error = ""
    try:
       with redirect_stdout(f):
          exec(command)
-
-      result = "Result of execution: ", f.getvalue()
+      result = f.getvalue()
    except Exception as e:
       print(e)
-      result = "Error: " + str(e)
+      error = "Error: " + str(e)
 
-   return render_template('ping.html', contents=result, command=command)
+   return render_template('code.html', contents=result, error = error, command=command)
 
 # JavaScript Code injection
 @app.route('/xss', methods=["GET", "POST"])

@@ -15,10 +15,14 @@ async function authCall(){
     var node = document.getElementById("access");
 
     if(jsonData['status'] === 200){
-        node.innerText = 'flag: ' + jsonData['data']; 
+        node.innerText = 'You\'re in! Flag: ' + jsonData['data']; 
+        var imageNode = document.getElementById("image");
+        imageNode.src= "/kidInHouse.jpg"; 
     }
     else{ // 403 denied
         node.innerText = "Improper 'User-Agent' header. Good try!"; 
+        var imageNode = document.getElementById("image");
+        imageNode.src= "/knockingboy.jpg"; 
     }
 }
 

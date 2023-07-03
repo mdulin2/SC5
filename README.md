@@ -1,6 +1,6 @@
 # Challenges for SC5 - Spokane Cyber Cup V
 
-## Web 
+## Web (14)
 - **Lottery**:
 	- Redis duplicate key caching bug
 - Korean food new auth issue(used first three years)
@@ -23,8 +23,6 @@
 	- Statistiics on this occuring
 - **Racey**:
 	- Race condition
-- **Blackboard**:
-	- Default creds
 - **Injection city** (6): 
 	- Command injection 
 	- Argument injection
@@ -35,9 +33,6 @@
 - CSRF
 - IDOR
 - Side channel
-- Admin panel:
-	- Insecure login (direct request or bad creds or SQLi maybe?) 
-	- Command injection
 - Insecure randomness
 - Unpastable text box
 - Whatever else :) 
@@ -54,14 +49,16 @@
 	- Hijacking the control flow
 	- Shellcode - your own code
 	- ROP - pwnable.kr-like challenge
+		- Could do JavaScript ROP to make it easier too? 
 	- Use after free
 	- https://github.com/mdulin2/SC3/tree/master/buf_series was used in years past. 
 - Pickle Challenge: 
 	- https://checkoway.net/musings/pickle/
 - Integer overflow/underflow/truncation:
 	- https://github.com/mdulin2/SMC2/tree/master/pokemon
+- JavaScript ROP
 	
-## Linux 
+## Linux (5)
 - Linux usage basics
 - **Error to Code** (error_to_code):
 	- Turning an error message into perl code
@@ -76,7 +73,7 @@
 - **Surrondings**: 
 	- ulimit and error handling
 
-## Reverse Engineering 
+## Reverse Engineering (3) 
 - GameBoy:
 	- Get the stuff working
 	- Strings
@@ -93,7 +90,7 @@
 - Log Analysis 
 - other blue team-y things?
 
-## Cryptography
+## Cryptography (7)
 - Cesar Cipher
 - **Digital Signature Algorithm (dsa)** (5): 
 	- Explain DSA (manually verify) - will probably remove this one
@@ -108,14 +105,15 @@
 - **Mean what you sign**: 
 	- Misuse of signatures in cryptography
 
-## Other Challenges
+## Other Challenges (4) 
 - Hotel finding from only an image(Vanessa) 
 - Blockchain challenges (Kevin):
 	- Attack tracing
 	- NFT getting
+	- Wallet private key brute forcing?
 - Location privacy issues via trianglation
 - Morse Code
-- Phreaking:
+- **Phreaking (4)**
 	- Unseen character
 	- Long distance call
 	- Things like this
@@ -128,7 +126,6 @@
 
 
 ## Contributing
-
 - General notes: 
 	- Be creative and have fun! Novel things are awesome :) 
 	- You don't have to finish the challenge in one go. Feel free to put simple POCs or even ideas into its own folder.

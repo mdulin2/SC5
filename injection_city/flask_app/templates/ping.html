@@ -4,8 +4,24 @@
     <title>Check a connection</title>
   </head>
   <body>
-    <p>{{domain}}:{{contents}}</p>
-    <p>Command: {{command}}</p>
+    <h1>Connection Tester - Command Injection</h1>
+    <pre>Command for ``subprocess.Popen`` (with shell): 
+
+      {{command}}
+    </pre>
+
+    <pre>Output: {{contents}}</pre>
+    {#<pre>Command: {% block content %}
+    {% for char in command %}
+
+      {% if char == "\n" %}
+        <br>
+      {% else %}
+        {{char}}
+    {% endif %}
+    {% endfor %}
+    {% endblock content %}
+    </pre> #}
+    <pre>Error: {{error}}</pre>
   </body>
 </html>
-
