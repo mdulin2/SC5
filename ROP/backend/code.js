@@ -16,7 +16,6 @@ var var4;
 var var5;
 var var6;
 var var7;
-var logging_string; 
 
 function start(){
 	var1 = getRandomInt(10000000000); 
@@ -29,21 +28,12 @@ function start(){
 	
 	userTotal = 0; 
 	total = var1 + var2 + var3 + var4 + var5 + var6 + var7;
-  	logging_string = "";
 }
 
 // https://www.geeksforgeeks.org/how-to-run-javascript-from-python/
 function executeCall(array_input){
 	start(); 
   	var execute_result = execute(array_input); 
-
-	var logging = document.getElementById("logging");
-  	logging.innerHTML = logging_string;
-
-	// If we execute this...
-	if(execute_result === true){
-		logging.innerHTML = logging.innerHTML + "<br><br><b>Success!</b> :)"
-	}
 
 	return execute_result; 
 }
@@ -55,61 +45,49 @@ function getRandomInt(max) {
 function func1(){
   userTotal += var1; 
   console.log("Adding func1: ", var1);
-  logging_string += "<br/>Adding func1: " + var1; 
 }
 
 function func2(){
   userTotal += var2; 
   console.log("Adding func2: ", var2);
-  logging_string += "<br/>Adding func2: " + var2; 
 
 }
 
 function func3(param1){
-  logging_string += "<br/>Param1: " + param1; 
   if(param1 === "ROP"){
     userTotal += var3; 
     console.log("Adding func3: ", var3);
-    logging_string += "<br/>Adding func3: " + var3; 
 
   }else{
     console.log("Missed func3 :(");
-    logging_string += "<br/>Missed func3 :("; 
   }
 }
 
 function func4(){
   userTotal += var4; 
   console.log("Adding func4: ", var4);
-  logging_string += "<br/>Adding func4: " + var4; 
 }
 
 function func5(param1, param2){
-  logging_string += "<br/>Param1: " + param1; 
-  logging_string += "<br/>Param2: " + param2; 
-
+  console.log(param1, param2)
   if(param1 === "1337" && param2 === "0x8000000"){
     userTotal += var5; 
-    logging_string += "<br/>Adding func5: " + var5; 
     console.log("Adding func5: ", var5);
 
   }else{
     console.log("Missed func5 :(")
-    logging_string += "<br/>Missed func5 :("; 
   }
 }
 
 function func6(){
   userTotal += var6; 
   console.log("Adding func6: ", var6);
-  logging_string += "<br/>Adding func6: " + var6; 
 
 }
 
 function func7(){
   userTotal += var7; 
   console.log("Adding func7: ", var7);
-  logging_string += "<br/>Adding func7: " + var7; 
 
 }
 
@@ -132,36 +110,38 @@ function execute(arr){
  for(var index=0; index < arr.length; index++){
 	var elt = arr[index]; 
 
-    // Function pointers to call
-    if(elt.startsWith("func") && elt.length == 5){
-      //const func = window[elt];  // Getting function to call dynamically. 'func1', 'func2', 'func...'
-      if(storage.length === 0){
-         eval(elt + "()"); 
-		 //func()
-      }
-      else if(storage.length === 1){
-		eval(elt + "(\"" + storage[0]) + "\")"; 
-         //func(storage[0]);
-      }
 
-      // TODO: Should I flip this?
-      else if(storage.length === 2){
-		eval(elt + "(\"" + storage[1]) + "\",\"" + storage[0] + "\")"; 
-
-         func(storage[1], storage[0]);
+      if(elt === "func1"){
+        func1(); 
       }
-      storage = [];
-    }
-   
-  // Parameters to add to th call
-  else {
+      else if(elt === "func2"){
+        func2(); 
+      }
+      else if(elt === "func4"){
+        func4(); 
+      }
+      else if(elt === "func6"){
+        func6(); 
+      }
+      else if(elt === "func7"){
+        func7(); 
+      }
+      else if(elt == "func3"){
+        func3(storage[0]);
+        storage = [];
+      }
+      else if(elt == "func5"){
+        func5(storage[1], storage[0]);
+        storage = [];
+      }
+     else{
+      console.log("Storage!?"); 
       storage.push(elt); 
     }
-  } 
+ }
 
   // Did a win occur?
   return didWin(); 
-  
 }
 
 function callGlobal(){

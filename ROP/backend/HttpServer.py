@@ -5,24 +5,36 @@ import subprocess
 from flask import Flask, request
 import flask
 import js2py
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 flagfile = open("/flag.txt", 'r')
 flag = flagfile.read()
 
 js_code = open("/backend/code.js", 'r').read()
-execute = js2py.eval_js(js_code)
+js2py.translate_file("code.js", "temp.py")
 
-@app.route('/run_code')
+# Transformed code shown above...
+from temp import * 
+
+#curl http://localhost:8000/run_code -H "Content-Type: application/json" --data '{"data" : ["func1", "func2", "ROP", "func3", "func4", "0x8000000", "1337", "func5", "func6", "func7"]}'
+@app.route('/run_code', methods=['POST'])
 def run_code():
 
+    # Assume this is JSON
+    data = request.get_json()
+    elements = data['data']
 
-    execute()
-    #print(res_2(5))
+    # temp.executeCall(["func1", "func2", "ROP", "func3", "func4", "0x8000000", "1337", "func5", "func6", "func7"])
+    result = temp.executeCall(elements)
+    if(result == True):
+        data = flag
+    else: 
+        data = "Nope :("
 
-    data = []
     response = flask.jsonify( {"status" : 200, "data" : data})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response    

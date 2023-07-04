@@ -1,11 +1,4 @@
-
-/*
-Mimicing the famous Horcrux's pwnable.kr challenge in JavaScript 
-
-TODO: 
-- Output logs to UI about WHICH functions were executed
-- Create backend execution to output the flag.
-*/
+var backend_url = "http://localhost:8002/run_code";
 
 var userTotal = 0; 
 var total = 0; 
@@ -32,7 +25,7 @@ function start(){
   logging_string = "";
 }
 
-function executeCall(){
+async function executeCall(){
 	start(); 
 	
 	var array_input = document.getElementById("array_input").value;
@@ -48,7 +41,16 @@ function executeCall(){
 
   // If we execute this...
   if(execute_result === true){
-    logging.innerHTML = logging.innerHTML + "<br><br><b>Success!</b> :)"
+    var d = await fetch(backend_url, 
+      {
+        body : JSON.stringify({"data" : array_input}), 
+        method : "POST", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors"
+    }); 
+    logging.innerHTML = logging.innerHTML + "<br><br>" + (await d.json())['data']; 
   }
 }
 
@@ -117,6 +119,7 @@ function func7(){
 
 }
 
+// Winning condition
 function didWin(){
   if(total === userTotal){
     return true; 

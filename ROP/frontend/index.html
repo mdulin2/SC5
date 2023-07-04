@@ -9,8 +9,23 @@
         <h2>
             Input Data for ROP
         </h2>
+        <img src="ROP.png" style="float:right; width: 25%">
         <p>
-            <input type="text" id="array_input" name="array_input">
+            Hints:
+            <ul>
+                <li>
+                    Read the code at <a href="/code.js">code.js</a>. This helps the challenge make sense. 
+                </li>
+                <li>
+                    Call all seven functions in <a href="/code.js">code.js</a> with the <i>input</i> below. They're named "func1", "func2"....
+                </li>
+                <li>
+                    If you can call all seven with the proper parameters, you win!
+                </li>
+            </ul>
+        </p>
+        <p>
+            <input type="text" id="array_input" name="array_input" style="width:50%; height: 100px;">
             <button id="execute" onClick="executeCall()">
                 Execute
             </button>
