@@ -1,7 +1,9 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
-WORKDIR /auth_handler
-RUN apt-get update && apt-get -y install build-essential gcc socat netcat python3
+WORKDIR /mean_what_you_sign
+RUN apt-get update && apt-get -y install build-essential gcc socat netcat python3 python3-pip
 COPY ./flag.txt ./flag.txt
-COPY ./auth_handler.py ./auth_handler.py
-ENTRYPOINT socat TCP-LISTEN:10003,reuseaddr,fork EXEC:"python3 auth_handler.py",pty,stderr
+COPY ./mean_what_you_sign.py ./mean_what_you_sign.py
+RUN pip3 install pycryptodome
+
+ENTRYPOINT socat TCP-LISTEN:10000,reuseaddr,fork EXEC:"python3 mean_what_you_sign.py",pty,stderr
