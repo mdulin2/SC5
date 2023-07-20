@@ -1,6 +1,6 @@
 //need to update the view of the code 
 
-Hints to give
+# Hints to give
 
 * look at the code and find out how the object is signed
 
@@ -12,7 +12,7 @@ Username | Session random data
     '''
     return sign_data(username + random_nonce)
 
-Solution
+# Solution
 
 When an object is signed, it uses a username and a user provided random value.
 
