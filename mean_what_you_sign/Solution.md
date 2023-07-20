@@ -2,7 +2,7 @@ Hints to give
 
 * look at the code and find out how the object is signed
 
-# Sign the auth object for the user
+Sign the auth object for the user
 def sign(username, random_nonce):
     '''
     Data to sign
