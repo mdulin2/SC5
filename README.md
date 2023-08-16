@@ -54,8 +54,10 @@
 	- https://checkoway.net/musings/pickle/
 - Integer overflow/underflow/truncation:
 	- https://github.com/mdulin2/SMC2/tree/master/pokemon
-- JavaScript ROP
+- **JavaScript ROP**
 - UAF
+- Barcode creator:
+	- https://how2electronics.com/barcode-qr-code-reader-using-arduino-qr-scanner-module/
 	
 ## Linux (5)
 - Linux usage basics
