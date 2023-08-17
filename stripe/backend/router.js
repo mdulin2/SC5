@@ -39,19 +39,38 @@ app.get("/winner/:userid", async function (req, res) {
 });
 
 // curl -X POST http://127.0.0.1:5000/webhookssion.completed", "data" :{"object" : {"metadata" : {"payment_id" : 4}}}}' -H 'Content-Type: application/json'
-app.post('/webhook', express.json({type: 'application/json'}), async function (req, res) {
+app.post('/webhook', express.raw({type: 'application/json'}), async function (req, res) {
 
-    const event = req.body; 
-    console.log(event); 
     var result; 
+    const sig = req.headers['stripe-signature'];
+
+  /*
+  // TODO - Perform signature validation here
+  var event;
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, "whsec_OBtkmrg2L5h73YMdy2lFRb8m9JlKUPjy")
+    console.log(event) 
+  }
+  catch (err) {
+    console.log(err.message) 
+    res.status(400).send(`Webhook Error: ${err.message}`);
+    return; 
+  }
+  */
+
+    var event;
+    try{
+	    event = JSON.parse(req.body)
+    }
+    catch(err){
+      res.json({"type" : "Missing 'body'"})
+    }
+
     if(!('type' in event)){
       res.json({"type" : "Missing 'type' in body"});
       return; 
     }
 
-    // TODO - Perform signature validation here
-
-    // TODO - Check data in the 'Owners' to see if the ID for our order exists or not.
     // Handle the event
     switch (event.type) {
       case 'checkout.session.completed':
@@ -149,8 +168,13 @@ app.get('/user/:userid', async function (req, res) {
 
 app.get('/Orders/:userid', async function (req, res) {		
 
-  var d = await db.get(`SELECT * FROM Orders WHERE UserID = ?`, req.params.userid)
-  res.send(d)
+  var d = await db.all(`SELECT * FROM Orders WHERE UserID = ?`, req.params.userid)
+  if(d !== undefined){
+  	res.send(d)
+  }
+  else{
+	res.send({"error" : "User DNE"})
+  }
 });
 
 // Not the vuln :) Just trying to make it easier to use!
@@ -222,12 +246,10 @@ async function createPrice(){
 
 async function setupWebhook(){
 
-  const webhookEndpoints = await stripe.webhookEndpoints.list({
-  limit: 3,
-});
+  const webhookEndpoints = await stripe.webhookEndpoints.list();
 
   console.log(webhookEndpoints)
-  if(webhookEndpoints.data.length > 1){
+  if(webhookEndpoints.data.length >= 1){
      return; 
   }
 
@@ -238,6 +260,7 @@ async function setupWebhook(){
       'checkout.session.completed'
     ],
   });
+  console.log("New endpoint:", endpoint) 
 }
 
 async function getRemoteIp(){
@@ -307,8 +330,16 @@ stripe.prices.update(  'price_1NfsKxE8bmyyMPHw8sJC7vQk'
 })
 
 */
+//stripe.webhookEndpoints.del('we_1NgDnrE8bmyyMPHwvo1h2fKH') 
+//
+async function a(){
+	const webhookEndpoint = await stripe.webhookEndpoints.retrieve(
+	  'we_1Ng9NRE8bmyyMPHwZ5onwraH'
+	);
+	console.log("Retreieve:", webhookEndpoint)
+}
 
-//stripe.webhookEndpoints.del('we_1Ng9KXE8bmyyMPHwI5h9jfZ9')
+//a()
 init();
 
 app.listen(5000);
