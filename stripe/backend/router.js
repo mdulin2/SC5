@@ -36,17 +36,19 @@ app.get("/winner/:userid", async function (req, res) {
       res.send({"error" : "User DNE"});
       return; 
   }
+  console.log(d) 
   if(d.Amount >= 20){
       res.send({"flag" : flag})
+      deleteOrdersForUser(req.params.userid);
+      deleteUser(req.params.userid);
       return;
   }
   res.send({"error" : "Need to get 20 orders to get flag"})
    
 });
 
-// curl -X POST http://127.0.0.1:5000/webhookssion.completed", "data" :{"object" : {"metadata" : {"payment_id" : 4}}}}' -H 'Content-Type: application/json'
+// curl -X POST http://127.0.0.1:5000/login --data '{"user" : "admin"'} -H "Content-Type:application/json
 app.post('/webhook', express.raw({type: 'application/json'}), async function (req, res) {
-
     var result; 
     const sig = req.headers['stripe-signature'];
 
@@ -63,13 +65,15 @@ app.post('/webhook', express.raw({type: 'application/json'}), async function (re
     return; 
   }
   */
-
+    console.log("Webhook!")
     var event;
     try{
 	    event = JSON.parse(req.body)
+            console.log(event);
     }
     catch(err){
       res.json({"type" : "Missing 'body'"})
+      return; 
     }
 
     if(!('type' in event)){
@@ -81,6 +85,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), async function (re
     switch (event.type) {
       case 'checkout.session.completed':
 
+        console.log(event.data);
         if(!event.data){
           result = {"type" : "Missing 'data' in body"}
           break;
@@ -103,7 +108,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), async function (re
 
         var tracking_id = event.data.object.metadata.payment_id;
         var d = await db.get(`SELECT * FROM Orders WHERE ID = ?`, [tracking_id]);
-   	    var user = await db.get(`SELECT * FROM Users WHERE UserID = ?`, d.UserID)
+   	var user = await db.get(`SELECT * FROM Users WHERE UserID = ?`, d.UserID)
         updateUser(user.UserID, user.Amount + 1)
 	      result = {"error" : false, "message" : "Successfully bought!"}
         break;
@@ -130,17 +135,19 @@ app.post('/stripe/:userid', async function (req, res) {
     return;
   }
 
-   // Get the amount of orders
-  var d = await db.get(`SELECT COUNT(ID) from Orders`);
+   // Get the front of the list for autoincrement values
+  var d = await db.get(`select seq as counter from sqlite_sequence where name="Orders"`)
   var id;
-  if(d['COUNT(ID)'] == null){
-      id = 1;
+  
+  // If table does not currently exist
+  if(d === undefined){
+     id = 1;
   }
-  else {
-      id = d['COUNT(ID)'] + 1;
+  else{
+     id = d['counter'] + 1;
   }
   const session = await stripe.checkout.sessions.create({
-      success_url: `https://${domain}:4000/success?user=` + req.params.userid,
+      success_url: `http://${domain}:4000/success.html?user=` + req.params.userid,
       line_items: [
         {price: price_id, quantity: 1},
       ],
@@ -301,6 +308,14 @@ async function updateUser(id, amount){
 
 async function createOrder(UserId, Session){
   return (await db.run("INSERT INTO Orders(UserID, Amount, Session) VALUES (?,1,?)", [UserId, Session]));
+}
+
+async function deleteOrdersForUser(UserId){
+  return (await db.run("DELETE FROM Orders WHERE UserID=?", [UserId]))
+}
+
+async function deleteUser(UserId){
+  return (await db.run("DELETE FROM Users WHERE UserID=?", [UserId]))
 }
 
 async function testData(){

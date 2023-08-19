@@ -13,9 +13,10 @@
 - Exploit flow: 
 	- /Login - create a user (can be done through UI)
 	- /stripe:/user - Order a hitman (can be done through UI). NOTE: Save the 'ID' from this request. 
-	- Call the callback function directly. This is shown below:
+	- Call the callback function directly. Do this until the user has 20+ in their inventory:
 	```
 
 	curl -X POST http://127.0.0.1:5000/webhook --data '{"type" : "checkout.session.completed", "data" :{"object" : {"metadata" : {"payment_id" : <<PaymentID>>}}}}' -H 'Content-Type: application/json'
 	```
 	- Calling this directly will take trial and error on figuring out the shape and data required for this. Students should read the source code and look at error messages to figure this out.
+	- Check the winner function!
