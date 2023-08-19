@@ -1,0 +1,5 @@
+{
+	"stripe_secret" : "sk_test_51NfrqUE8bmyyMPHw83wFfROqb8umMSH8otHsaHwMX2QIuSoSkhPFllEIuLCor3eCMBSt0ltP7mi0cpOeAfiS1aVk003ZracLWT",
+	"domain" : "maxwelldulin.com",
+	"flag" : "SC5{stripe_lack_of_signature_check}"
+}

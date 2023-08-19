@@ -1,13 +1,19 @@
 const express = require('express');
 const http = require('http');
 const sqlite3 = require('sqlite3'); 
-
+var cors = require('cors')
 const sqlite = require('sqlite')
+var fs = require('fs');
 
-// TODO - fix secret later to be dynamic
-const stripe = require('stripe')('sk_test_51NfrqUE8bmyyMPHw83wFfROqb8umMSH8otHsaHwMX2QIuSoSkhPFllEIuLCor3eCMBSt0ltP7mi0cpOeAfiS1aVk003ZracLWT');
+// Get configuration for website information and stripe
+var config_obj = JSON.parse(fs.readFileSync('../config.json', 'utf8'));
+
+const stripe = require('stripe')(config_obj['stripe_secret'])
+const domain = config_obj["domain"]
+const flag = config_obj["flag"]
 
 var app = express();
+app.use(cors()); // Configure CORS to simply work out of the box.
 let db; 
 
 // this is a top-level await for opening the connection
@@ -31,7 +37,7 @@ app.get("/winner/:userid", async function (req, res) {
       return; 
   }
   if(d.Amount >= 20){
-      res.send({"flag" : "SC5{asdfasfd}"})
+      res.send({"flag" : flag})
       return;
   }
   res.send({"error" : "Need to get 20 orders to get flag"})
@@ -97,11 +103,9 @@ app.post('/webhook', express.raw({type: 'application/json'}), async function (re
 
         var tracking_id = event.data.object.metadata.payment_id;
         var d = await db.get(`SELECT * FROM Orders WHERE ID = ?`, [tracking_id]);
-		 console.log(d)
-
-   	var user = await db.get(`SELECT * FROM Users WHERE UserID = ?`, d.UserID)
+   	    var user = await db.get(`SELECT * FROM Users WHERE UserID = ?`, d.UserID)
         updateUser(user.UserID, user.Amount + 1)
-	result = {"error" : false, "message" : "Successfully bought!"}
+	      result = {"error" : false, "message" : "Successfully bought!"}
         break;
 
       default:
@@ -115,41 +119,38 @@ app.post('/webhook', express.raw({type: 'application/json'}), async function (re
 // curl -X POST http://127.0.0.1:5000/stripe/admin
 app.post('/stripe/:userid', async function (req, res) {
 
-   var user = await db.get(`SELECT * FROM Users WHERE UserID = ?`, req.params.userid)
-   console.log(d) 
-   if(user === undefined){
-	res.send({"error" : "user dne"})
-	return;
-   }
-   if(user.Amount > 2){
-	res.send({"error" : "User hit the limit"})
-	return;
-   }
+  var user = await db.get(`SELECT * FROM Users WHERE UserID = ?`, req.params.userid)
+  console.log(d) 
+  if(user === undefined){
+	  res.send({"error" : "user dne"})
+	  return;
+  }
+  if(user.Amount > 2){
+    res.send({"error" : "User hit the limit"})
+    return;
+  }
 
    // Get the amount of orders
-   var d = await db.get(`SELECT COUNT(ID) from Orders`);
-   var id;
-   if(d['COUNT(ID)'] == null){
+  var d = await db.get(`SELECT COUNT(ID) from Orders`);
+  var id;
+  if(d['COUNT(ID)'] == null){
       id = 1;
-   }
-   else {
+  }
+  else {
       id = d['COUNT(ID)'] + 1;
-   }
-   console.log(d, id)
-
- console.log("Price Id:", price_id);
-
+  }
   const session = await stripe.checkout.sessions.create({
-    success_url: 'https://maxwelldulin.com/success',
-    line_items: [
-      {price: price_id, quantity: 1},
-    ],
-    mode: 'payment',
-    metadata : {
-	payment_id: id
+      success_url: `https://${domain}:4000/success?user=` + req.params.userid,
+      line_items: [
+        {price: price_id, quantity: 1},
+      ],
+      mode: 'payment',
+      metadata : {
+      payment_id: id
     }
   });
 
+  // Add order to DB
   createOrder(user.UserID, session.url);
 
   // Track this info in the 'Orders' table.
@@ -166,7 +167,7 @@ app.get('/user/:userid', async function (req, res) {
   res.send(d)
 });
 
-app.get('/Orders/:userid', async function (req, res) {		
+app.get('/orders/:userid', async function (req, res) {		
 
   var d = await db.all(`SELECT * FROM Orders WHERE UserID = ?`, req.params.userid)
   if(d !== undefined){
@@ -255,7 +256,7 @@ async function setupWebhook(){
 
   // TODO - get IP address/domain dynamically here
   const endpoint = await stripe.webhookEndpoints.create({
-    url: "http://" + "maxwelldulin.com" + ":5000/webhook",
+    url: "http://" + domain + ":5000/webhook",
     enabled_events: [
       'checkout.session.completed'
     ],
@@ -324,20 +325,13 @@ async function init(){
 
 
 /*
-stripe.prices.update(  'price_1NfsKxE8bmyyMPHw8sJC7vQk'
+stripe.prices.update('price_1NfsKxE8bmyyMPHw8sJC7vQk'
 ,{
   active: false
 })
 
 */
 //stripe.webhookEndpoints.del('we_1NgDnrE8bmyyMPHwvo1h2fKH') 
-//
-async function a(){
-	const webhookEndpoint = await stripe.webhookEndpoints.retrieve(
-	  'we_1Ng9NRE8bmyyMPHwZ5onwraH'
-	);
-	console.log("Retreieve:", webhookEndpoint)
-}
 
 //a()
 init();

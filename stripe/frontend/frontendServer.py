@@ -16,6 +16,6 @@ class MyHTTPRequestHandler(SimpleHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    with socketserver.TCPServer(("", 3000), MyHTTPRequestHandler) as httpd:
-        print("serving at port", 3000)
+    with socketserver.TCPServer(("", 4000), MyHTTPRequestHandler) as httpd:
+        print("serving at port", 4000)
         httpd.serve_forever()

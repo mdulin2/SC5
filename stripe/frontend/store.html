@@ -1,0 +1,45 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+        <!-- -->
+    </head>
+
+    <style>
+        body {
+          background-image: url('/images/supermarket.jpeg');
+          color: white; 
+        }
+    </style>
+    <body onload="getOrderData()">
+        <center>
+        <div style="background-color:aqua">
+        <h1>
+            Store
+        </h1>
+        <h2 id="storeTitle">
+            Buy 'Gerald Hitman' Services (X/2)
+        </h2>
+        </div>
+        <img src="/images/StickFigureHitman.png" onClick="buy()"/>
+        <p id="error">
+        </p>
+        <button onClick="buy()">
+            Buy Hitman
+        </button>
+        <table id="orderTable">
+            <h2>Orders Information</h3>
+            <th>Order ID</th>
+            <th>Stripe Link</th>
+        </table>
+        <!---Add table with order information-->
+    </center>
+    </body>
+</html>
+ 
+
+<script type="text/javascript" src="code.js">
+
+</script>
