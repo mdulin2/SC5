@@ -56,8 +56,12 @@
 	- https://github.com/mdulin2/SMC2/tree/master/pokemon
 - **JavaScript ROP**
 - UAF
-- Barcode creator:
-	- https://how2electronics.com/barcode-qr-code-reader-using-arduino-qr-scanner-module/
+- **Barcode creator (5)**:
+	- What's my seat?
+	- First mod - name 
+	- Second mod - ticket class
+	- AVR Buffer Overflow 
+	- Check yourself before you wreck yourself
 	
 ## Linux (5)
 - Linux usage basics
