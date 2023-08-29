@@ -1,5 +1,7 @@
 # hack-man: solution
 
+Flag: `SC5{p4c_m4n_0r_h4ck_m4n?}`
+
 There are many ways to solve this problem. For example, you could get rid of collisions, so that you float through the middle wall.
 
 However, the intended approach was to put a breakpoint inside the player's position update logic, then to set the player's position to the location of the chest. In particular, line 993 of `index.js` (using the browser's development console), which is inside of the `update` function of the player object. This gets called by the game engine whenever the player object's position is updated.
