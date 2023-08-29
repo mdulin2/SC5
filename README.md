@@ -78,7 +78,7 @@
 - **Surrondings**: 
 	- ulimit and error handling
 
-## Reverse Engineering (3) 
+## Reverse Engineering (4) 
 - GameBoy:
 	- Get the stuff working
 	- Strings
@@ -88,6 +88,7 @@
 	- Find the command
 	- Find the secret being stored
 	- Find the password in the command
+- **hack_man**
 
 ## Blue Team 
 - Malware analysis or memory forensics (Gerard) 
