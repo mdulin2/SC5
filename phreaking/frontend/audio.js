@@ -149,7 +149,7 @@ async function createPhoneBook(){
     var responseJson = responseJsonTmp['phoneBook'];
 
     // Iterate over each item in the phone book
-    for (var rowIndex = 0; rowIndex < responseJson.length; rowIndex++){
+    for (var rowIndex = 1; rowIndex < responseJson.length; rowIndex++){
         // https://www.w3schools.com/jsref/met_table_insertrow.asp
         var row = tableNode.insertRow(rowIndex);  // Add the row
 
@@ -263,7 +263,7 @@ function receiveMessage(responseJsonAll){
                 flagP.innerText = "State:" + responseJson["data"]; 
             }
             // TODO: Add other coins here
-            else if(responseJson["data"] == "QUARTER"){
+            else if(responseJson["data"] == "QUARTER" || responseJson["data"] == "COIN" || responseJson["data"] == "NICKEL"){
                 flagP.innerText = "State:" + responseJson["data"]; 
                 var moneyP = document.getElementById("moneyData"); 
                 moneyP.innerText = responseJson["state"]; 

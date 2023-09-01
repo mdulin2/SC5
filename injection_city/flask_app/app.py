@@ -28,8 +28,7 @@ app = Flask(__name__)
 def index():
    return render_template('index.html') 
 
-# Command injection
-# http://127.0.0.1:5000/ping/?domain=google.com;%20cat%20/flags/flag1.txt
+# Command injection challenge code
 @app.route('/ping/')
 def ping():
    domain = request.args.get('domain') 
@@ -50,10 +49,84 @@ def ping():
 
    return render_template('ping.html',contents=output, command=command, error=error, domain=domain) 
 
+
+# Argument injection challenge code
+@app.route('/head/')
+def head():
+   d = request.args.get('d')
+   if(d == None):
+      return "Please add commands to the 'd' parameter"
+
+   if(os.fork() != 0):
+       time.sleep(5)
+       sys.exit(1)
+
+   # flag2 user
+   os.setuid(1001)
+
+   command = "head -c %s /tmp/test_file.txt" % d
+   command_split = command.split(" ")
+   print(command) 
+
+   p = subprocess.Popen(command_split, stdin=PIPE, stdout=PIPE, stderr=PIPE, encoding="utf-8") 
+   output, error = p.communicate()
+   return render_template('head.html', contents=output, error=error, command=command)
+
+
+
+# JavaScript Code injection challenge code
+@app.route('/xss', methods=["GET", "POST"])
+def xss():
+   data = ""
+   if 'input' in request.form:
+      data = request.form['input']
+
+   if(os.fork() != 0):
+       time.sleep(5)
+       sys.exit(1)
+ 
+   # flag3 user
+   os.setuid(1002) 
+
+   html = render_template('xss.html', userInput=Markup(data), flag=None)
+   if(parse_xss(html) == True):
+      # Read the flag in - can reference the flag as an object now.
+      flagfile = open("/flags/flag3.txt", 'r')
+      flag = flagfile.read()
+      return render_template('xss.html', userInput=Markup(data), flag=flag)
+   else: 
+      return html
+   
+## SQL injection challenge code
+## Solution: "' UNION select * from flag; -- "
+@app.route('/search', methods=["GET", "POST"])
+def search():
+
+   search = ""
+   if 'search' in request.form:
+      search = request.form['search']
+
+   ## Username and password field ## 
+   if(os.fork() != 0):
+       time.sleep(5)
+       sys.exit(1)
+ 
+   # flag4 user
+   os.setuid(1003) 
+
+   query = ""
+   if(search != ""):
+      # Add search information into query from user here
+      query = "SELECT letter, info FROM search WHERE letter = '" + search + "'"
+
+   sql_response = ""
+   if(search != ""):
+      rows = searchDb(query) 
+      sql_response = rows
+
+   return render_template('search.html', userInput=query, flag=None, response=sql_response)
+
 # Template injection
-# https://secure-cookie.io/attacks/ssti/
-# http://127.0.0.1:5000/name/?name=%7B%%20for%20x%20in%20().__class__.__base__.__subclasses__()%20%%7D%7B%%20if%20%22warning%22%20in%20x.__name__%20%%7D%7B%7Bx()._module.__builtins__[%27__import__%27](%27os%27).popen(%22cat%20/flags/*%22).read()%7D%7D%7B%endif%%7D%7B%%20endfor%20%%7D
-# http://127.0.0.1:5000/name/?name={{flag}}
 @app.route('/name/') 
 def my_name():
    name = request.args.get('name') 
@@ -67,85 +140,24 @@ def my_name():
   </head>
   <body>
    <h1>What's your name? - Template Injection</title>
-    <pre>Input for jinja2 flask templating: {}</pre>
+    <pre>Input for jinja2 flask templating: %s</pre>
   </body>
 </html>
-""".format(name) 
+""" % (name) 
 
    if(os.fork() != 0):
        time.sleep(5)
        sys.exit(1)
 
-   # flag2 user
-   os.setuid(1001) 
+   # flag5 user
+   os.setuid(1004) 
 
    # Read the flag in - can reference the flag as an object now.
-   flagfile = open("/flags/flag2.txt", 'r')
+   flagfile = open("/flags/flag5.txt", 'r')
    flag = flagfile.read()
 
    return render_template_string(t, flags=flag, flag=flag)
 
-# can't get to work :(
-@app.route('/find/')
-def find():
-   d = request.args.get('d')
-   if(d == None):
-      return "Please add commands to the 'd' parameter"
-
-   command = "find . -name '*{}*'".format(d).split(" ") 
-   print(command) 
-
-   p = subprocess.Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, encoding="utf-8") 
-   output, error = p.communicate()
-   return render_template('ping.html', contents=output + ",error:" +  error, command=command)
-
-# Argument injection
-# http://127.0.0.1:5000/date/?d=100%20/flags/flags3.txt
-@app.route('/head/')
-def head():
-   d = request.args.get('d')
-   if(d == None):
-      return "Please add commands to the 'd' parameter"
-
-   if(os.fork() != 0):
-       time.sleep(5)
-       sys.exit(1)
-
-   # flag3 user
-   os.setuid(1002)
-
-   command = "head -c {} /tmp/test_file.txt".format(d)
-   command_split = command.split(" ")
-   print(command) 
-
-   p = subprocess.Popen(command_split, stdin=PIPE, stdout=PIPE, stderr=PIPE, encoding="utf-8") 
-   output, error = p.communicate()
-   return render_template('head.html', contents=output, error=error, command=command)
-
-# Argument injection 2
-# http://127.0.0.1:5000/date/?d=-f%20flags/flag3.txt
-@app.route('/date/')
-def date():
-
-   f = request.args.get('d')
-   if(f == None):
-      return "Please add commands to the 'd' parameter"
-
-   if(os.fork() != 0):
-       time.sleep(5)
-       sys.exit(1)
-
-   # flag3 user
-   os.setuid(1002) 
-
-   # Add in your own flags for the date command. Can be used to change the formatting.
-   # Bash commands don't work!
-   command = "date {}".format(f).split(" ") 
-   print(command) 
-
-   p = subprocess.Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, encoding="utf-8") 
-   output, error = p.communicate()
-   return render_template('ping.html', contents=output + ", error: " + error, command=command)
 
 # Code injection - exec
 # http://127.0.0.1:5000/building_data?name=a&address=%27%0Aprint(open(%27/flags/flag4.txt%27).read())%0A%27
@@ -162,18 +174,22 @@ def building():
        time.sleep(5)
        sys.exit(1)
  
-   # flag4 user
-   os.setuid(1003) 
+   # flag6 user
+   os.setuid(1005) 
+
+   # Read the flag in - can reference the flag as an object now.
+   flagfile = open("/flags/flag6.txt", 'r')
+   flag = flagfile.read()
 
    # Set the group in order to restrict the permissions
-   command = "data['{}'] = '{}'".format(name, location)
+   command = "data['%s'] = '%s'" % (name, location)
    f = StringIO()
 
    result = ""
    error = ""
    try:
       with redirect_stdout(f):
-         exec(command)
+         exec(command) # Dynamically execute our code
       result = f.getvalue()
    except Exception as e:
       print(e)
@@ -181,29 +197,10 @@ def building():
 
    return render_template('code.html', contents=result, error = error, command=command)
 
-# JavaScript Code injection
-@app.route('/xss', methods=["GET", "POST"])
-def xss():
-   data = ""
-   if 'input' in request.form:
-      data = request.form['input']
-
-   if(os.fork() != 0):
-       time.sleep(5)
-       sys.exit(1)
- 
-   # flag5 user
-   os.setuid(1004) 
-
-   html = render_template('xss.html', userInput=Markup(data), flag=None)
-   if(parse_xss(html) == True):
-      # Read the flag in - can reference the flag as an object now.
-      flagfile = open("/flags/flag5.txt", 'r')
-      flag = flagfile.read()
-      return render_template('xss.html', userInput=Markup(data), flag=flag)
-   else: 
-      return html
-
+'''
+XSS Challenge helper functions. 
+Determines whether XSS has occurred or not.
+'''
 def filter_on_event(tag):
    if(tag.name != "span"):
       return False
@@ -241,41 +238,6 @@ def parse_xss(html1):
                        return True
 
    return False
-
-## SQL injection
-## Solution: "' UNION select * from flag; -- "
-@app.route('/search', methods=["GET", "POST"])
-def search():
-
-   search = ""
-   if 'search' in request.form:
-      search = request.form['search']
-
-   ## Username and password field ## 
-   if(os.fork() != 0):
-       time.sleep(5)
-       sys.exit(1)
- 
-   # flag6 user
-   os.setuid(1005) 
-
-   query = ""
-   if(search != ""):
-      query = "SELECT letter, info FROM search WHERE letter = '{}'".format(search)
-
-   sql_response = ""
-   if(search != ""):
-      rows = searchDb(query) 
-
-      # TODO: SQL query HERE
-      # Query: SELECT username, password FROM login_table WHERE username = {} and password = {}
-      sql_response = rows
-
-   return render_template('search.html', userInput=query, flag=None, response=sql_response)
-
-
-## TODO: NoSQL Injection
-
 
 if __name__ == "__main__":
    create_table()

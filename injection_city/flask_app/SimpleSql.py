@@ -38,13 +38,12 @@ def addData():
     con = sqlite3.connect("search.db") 
     cur = con.cursor()
 
-    flagfile = open("/flags/flag6.txt", 'r')
+    flagfile = open("/flags/flag4.txt", 'r')
     flag = flagfile.read()
     cur.execute(
         "INSERT INTO flag(id, flag) VALUES(1,?)", [flag]
 	)
-    
-	# TODO: Add alphabet information
+
     con.commit()
 
 # Go through the database

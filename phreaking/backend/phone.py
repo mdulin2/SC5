@@ -65,6 +65,7 @@ def handleDial(f, call_id):
         add_frame_data(call_id,currentRecording+1, currentRecording+1)
         response_data["data"] = d
         response_data["type"] = "op"
+        response_data["state"] = (25 + userFunds) / 100 # Shift the decimals over
         if(userFunds >= 500): # $5
             response_data2 = copy.deepcopy(response_data) 
             response_data2["type"] = "flag"    
@@ -94,6 +95,7 @@ def handleDial(f, call_id):
         add_frame_data(call_id,currentRecording+1, currentRecording+1)
         response_data["data"] = d
         response_data["type"] = "op"
+        response_data["state"] = (5 + userFunds) / 100 # Shift the decimals over
 
         if(userFunds >= 500): # $5
             response_data2 = copy.deepcopy(response_data) 

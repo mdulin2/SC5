@@ -1,21 +1,21 @@
---- Out of town numbers
-209052100,Space Needle,0,/audio_files/gettysburg10.wav,1
-2065707572,Sleepless in Seattle,0,/audio_files/Sleepless.mp3,1
-5058425662,Saul Goodman,0,/audio_files/betterCallSaul.mp3,1
-18554380679,ZeroC00l,0,/audio_files/ZeroC00l.mp3,1
 --- Local numbers
-2051234,Maxwell Dulin,0,/audio_files/MaxDulin.m4a,1
-2054321,Vanessa Dulin,0,/audio_files/gettysburg10.wav,1
-2059736,Nathan Kirkland,0,/audio_files/gettysburg10.wav,1
-2054747,Yasmin K....,0,/audio_files/gettysburg10.wav,1
-2054204,Drew Timme,0,/audio_files/DrewTimme.mp3,1
-4558888,Davenport,0,/audio_files/gettysburg10.wav,1
-3134202,Gonzaga,0,/audio_files/Gonzaga.m4a,1
-6248916,Ol' Spaghetti Factory,0,/audio_files/gettysburg10.wav,1
+555,Maxwell Dulin,0,/audio_files/MaxDulin.m4a,1
+730,Vanessa Dulin,0,/audio_files/gettysburg10.wav,1
+561,Nathan Kirkland,0,/audio_files/gettysburg10.wav,1
+777,Yasmin K....,0,/audio_files/gettysburg10.wav,1
+2307,Drew Timme,0,/audio_files/DrewTimme.mp3,1
+160,Davenport,0,/audio_files/gettysburg10.wav,1
+313,Gonzaga,0,/audio_files/Gonzaga.m4a,1
+916,Ol' Spaghetti Factory,0,/audio_files/gettysburg10.wav,1
+--- Out of town numbers
+3908,Space Needle,0,/audio_files/gettysburg10.wav,1
+2640,Sleepless in Seattle,0,/audio_files/Sleepless.mp3,1
+6666,Saul Goodman,0,/audio_files/betterCallSaul.mp3,1
+1337,ZeroC00l,0,/audio_files/ZeroC00l.mp3,1
 --- International numbers
-645113459877,Hogwarts,1,/audio_files/Hogwarts.mp3,1
-648668039663,Silk Road,1,/audio_files/gettysburg10.wav,1
-648379998756,Indiana Jones,1,/audio_files/IndianaJones.mp3,1
+59877,Hogwarts,1,/audio_files/Hogwarts.mp3,1
+39663,Silk Road,1,/audio_files/gettysburg10.wav,1
+98756,Indiana Jones,1,/audio_files/IndianaJones.mp3,1
 --- Special dial numbers 
 7,Calling Card,0,/audio_files/gettysburg10.wav,0
-1,Test Number,0,/audio_files/gettysburg10.wav,0
+111,Test Number,0,/audio_files/gettysburg10.wav,0
