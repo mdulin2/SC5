@@ -1,0 +1,5 @@
+{% for message in messages -%}
+<div class="{{message['owner']}} messages">
+<div class="message">{{message['message']}}</div>
+</div>
+{% endfor %}
