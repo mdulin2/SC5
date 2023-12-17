@@ -1,0 +1,243 @@
+body {
+  overflow: hidden;
+  font-family: helvetica;
+  display: flex ;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  background-color:hsla(0,100%,50%,1);
+  background-image:
+    radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, hsla(242,100%,70%,1) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(355,100%,93%,1) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(340,100%,76%,1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(22,100%,77%,1) 0px, transparent 50%),
+    radial-gradient(at 40% 20%, hsla(28,100%,74%,1) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, hsla(343,100%,76%,1) 0px, transparent 50%);
+  transition: background-image 1s ease-out, background-color 1s ease-out;
+}
+
+.alt {
+  background-color:#99e7ff;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.forbidden-word {
+  position: absolute;
+  display: flex;
+  font-size: 30px;
+  top: calc(50% - 60px);
+  z-index: 1;
+  animation: 10s ease-out 0s 1 fadeOut;
+  animation-fill-mode: forwards;
+  padding: 15px;
+  text-align: center;
+}
+
+.title {
+  height: 30px;
+  width: calc(100% + 20px);
+  margin: -10px -10px 0 -10px;
+  border-bottom: 3px solid black;
+  border-top-left-radius: .5em;
+  border-top-right-radius: .5em;
+}
+
+.title .title-text {
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+.title .dots {
+  float: right;
+  padding: 7.5px;
+}
+
+.title .dot {
+  height: 15px;
+  width: 15px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+@media (min-width: 700px) {
+  .chat {
+    width: 40em;
+    transform: perspective(800px) rotateY(-4deg);
+  }
+
+  .alt .chat {
+    transform: perspective(800px) rotateY(4deg);
+  }
+
+  .messages-container {
+    height: 30em;
+  }
+}
+
+
+@media (max-width: 700px) {
+  .chat {
+    width: 90%;
+    height: 90%;
+    transform: perspective(800px) rotateY(-1deg);
+  }
+
+  .alt .chat {
+    transform: perspective(800px) rotateY(1deg);
+  }
+
+  .messages-container {
+    height: 90%;
+  }
+}
+
+
+.chat {
+  border: 4px solid black;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+
+  border-radius: .5em;
+  margin: auto;
+  background: #FBF9FF;
+
+  transition: transform 1s ease 0s;
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: scroll;
+  margin-right: -10px;
+  padding-right: 10px;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  border-radius: 20px;
+  padding: 8px 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: inline-block;
+  border: solid black 3px;
+  white-space: pre-wrap;
+}
+
+.yours {
+  align-items: flex-start;
+}
+
+.yours .message {
+  margin-right: 25%;
+  background-color: #eee;
+  position: relative;
+}
+
+.mine {
+  align-items: flex-end;
+}
+
+.mine .message {
+  color: white;
+  margin-left: 25%;
+  background: linear-gradient(to bottom, #00D0EA 0%, #0085D1 100%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+.send-message {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+input {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border: 3px solid black;
+  font-size: 1em;
+  flex-grow: 2;
+}
+
+button {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+  border-left: 0;
+  border-right: 3px solid black;
+  margin-top: 5px;
+  padding-left: 1em;
+  padding-right: 1em;
+  background: linear-gradient(to bottom, #00D0EA 0%, #0085D1 100%);
+  background-attachment: fixed;
+  font-size: 1em;
+  color: white;
+}
+
+
+.tiblock {
+  align-items: center;
+  display: flex;
+  height: 17px;
+}
+
+.ticontainer {
+  padding-bottom: 0.5em;
+  padding-left: 0.5em;
+}
+
+.ticontainer .tidot {
+  background-color: #90949c;
+}
+
+.tidot {
+  animation: typingAnimation 1.5s infinite ease-in-out;
+  border-radius: 2px;
+  display: inline-block;
+  height: 4px;
+  margin-right: 2px;
+  width: 4px;
+}
+
+@keyframes typingAnimation {
+  0%{
+    transform:translateY(0px)
+  }
+  28%{
+    transform:translateY(-5px)
+  }
+  44%{
+    transform:translateY(0px)
+  }
+}
+
+.tidot:nth-child(1){
+  animation-delay:200ms;
+}
+.tidot:nth-child(2){
+  animation-delay:300ms;
+}
+.tidot:nth-child(3){
+  animation-delay:400ms;
+}
+

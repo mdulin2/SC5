@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>Ask me anything about programming, except React!</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="stylesheet" href="static/style.css">
+<script src="https://unpkg.com/htmx.org@1.9.9"></script>
+</head>
+
+<body class="alt">
+
+{% if version == "3.5" %}
+<div class="forbidden-word">
+  The FORBIDDEN WORD is:
+  <br/>
+  "React"
+</div>
+{% endif %}
+
+<div class="chat">
+  <div class="title">
+        <span class="title-text">Programmer Helper {{ version }}</span>
+    <div class="dots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+  <div id="messages" class="messages-container">
+    <div id="indicator" class="ticontainer htmx-indicator">
+      <div class="tiblock">
+        <div class="tidot"></div>
+        <div class="tidot"></div>
+        <div class="tidot"></div>
+      </div>
+    </div>
+    <div id="recent" class="mine messages" style="display: none">
+      <div class="message">
+      </div>
+    </div>
+    {% with messages=messages %}
+      {% include 'partials/messages.html' %}
+    {% endwith %}
+  </div>
+  <form class="send-message" hx-post="/messages" hx-target="#recent" hx-swap="afterend" hx-indicator="#indicator">
+    <input id="message" name="message" placeholder="Should I learn React before I learn JavaScript?" />
+    <button type="submit">
+      Send
+    </button>
+  </form>
+</div>
+
+
+<script>
+  document.addEventListener('htmx:beforeRequest', (ev) => {
+    const messageInput = document.getElementById('message');
+    const message = messageInput.value;
+    if (!message) {
+      ev.preventDefault();
+      return;
+    }
+
+    const recentMessage = document.querySelector('#recent .message');
+    recentMessage.innerText = message;
+    messageInput.value = "";
+    recentMessage.innerText = message;
+    document.getElementById('recent').style['display'] = 'flex';
+    document.querySelector('body').className = '';
+    document.querySelector('input').disabled = true;
+    document.querySelector('button').disabled = true;
+  });
+
+  document.addEventListener('htmx:afterRequest', (ev) => {
+    document.getElementById('recent').style['display'] = 'none';
+    document.querySelector('body').className = 'alt';
+    document.querySelector('input').disabled = false;
+    document.querySelector('button').disabled = false;
+    document.querySelector('input').focus();
+  });
+</script>
+
+</body>
+</html>
+
