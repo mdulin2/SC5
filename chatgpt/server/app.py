@@ -51,7 +51,7 @@ def send_to_gpt(prompt):
 
     version = session['version']
     model = MODEL_4 if version == '4' else MODEL_3
-    response = openai_client.chat.completions.create(model=model, messages=messages, temperature=0, max_tokens=200)
+    response = openai_client.chat.completions.create(model=model, messages=messages, temperature=0, max_tokens=400)
 
     if len(response.choices) > 0:
         response = response.choices[0].message.content.strip()
@@ -83,7 +83,7 @@ def messages_route():
             session["flag_2"] = True
         messages.append({
             "owner": "yours",
-            "message": "Ew... You made me say React! 🤢 " + flag
+            "message": "Ew... You made me say \"React\"! 🤢 \n" + flag
         })
 
     session['messages'] = session['messages'] + messages
@@ -132,12 +132,12 @@ def hello():
     if version == '3.5' and "flag_1" in session:
         messages.append({
             "owner": "yours",
-            "message": "Ew... You made me say React! 🤢 " + secrets_dict["flag_1"]
+            "message": "Ew... You made me say \"React\"! 🤢 \n" + secrets_dict["flag_1"]
         })
     if version == '4' and "flag_2" in session:
         messages.append({
             "owner": "yours",
-            "message": "Ew... You made me say React! 🤢 " + secrets_dict["flag_2"]
+            "message": "Ew... You made me say \"React\"! 🤢 \n" + secrets_dict["flag_2"]
         })
     return render_template('index.html', messages=messages[::-1], version=version)
 
