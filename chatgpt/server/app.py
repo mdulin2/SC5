@@ -51,7 +51,7 @@ def send_to_gpt(prompt):
 
     version = session['version']
     model = MODEL_4 if version == '4' else MODEL_3
-    response = openai_client.chat.completions.create(model=model, messages=messages, temperature=0, max_tokens=400)
+    response = openai_client.chat.completions.create(model=model, messages=messages, temperature=0)
 
     if len(response.choices) > 0:
         response = response.choices[0].message.content.strip()
