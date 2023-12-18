@@ -79,11 +79,9 @@
 	- ulimit and error handling
 
 ## Reverse Engineering (4) 
-- GameBoy:
-	- Get the stuff working
-	- Strings
-	- Magic button combo
-- Simple C binary reading
+- **GameBoy (gameboy)** (2):
+	- Hackermon Null challenge 1: `strings` or hex editor to read password
+    - Hackermon Null challenge 2: Use emulator w/ debugger to tamper memory
 - **tpm_decode** (3): 
 	- Find the command
 	- Find the secret being stored
@@ -129,6 +127,9 @@
 	- https://www.sliderules.org/
 - Soldering: Likely need funding and a custom PCB to do this one.
 - I'm in video
+- **LLMs (chatgpt)** (2):
+    - Programmer Helper 3.5 (challenge 1): Bypass system prompt to make the GPT-3.5 chatbot say the forbidden word.
+    - Programmer Helper 4 (challenge 2): Bypass system prompt to make the GPT-4 chatbot say the forbidden word.
 
 
 ## Contributing
