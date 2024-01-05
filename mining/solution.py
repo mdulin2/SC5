@@ -2,7 +2,7 @@ import requests
 from hashlib import sha256
 
 ip = "127.0.0.1"
-port = "5000"
+port = "10001"
 
 # Hash an arbitrary string for us
 def hash_data(string):

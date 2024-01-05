@@ -48,7 +48,6 @@
 - 2. Since we are writing raw values to the stack, we need to use hex code to do this. In order to do this, we must write the characters prefaced with `\x`. So, in the example, turn `0x565556b4` into `\xb4\x56\x55\x56`. Add this value to the payload.
 - 3. If all is done right, you should have redirected execution of the program to where the flag is at, displaying the flag.
 - 4. My final payload is `python3 -c "import sys; sys.stdout.buffer.write(b'A' * 32 + b'B' * 4 + b'\x56\x88\x04\x08')" | ./killPtr`
-	- The exact address will differ from system to system though. 
 
 ## CorruptRet
 - The concept is the same as the previous challenge for endianness and overflowing a pointer. But, this time, we are overwritting the EIP (instruction pointer) of the location. 

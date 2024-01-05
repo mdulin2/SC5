@@ -149,11 +149,13 @@ void loop()
       char input = mySerial.read(); // Read 1 Byte of data and store it in a character variable
 
       // Don't want to checksum the checksum field! Would create a catch 22.
-      if(field <= 9){
+      if(field < 9){
         checksum_new += (unsigned int) input; 
+        //Serial.println(checksum_new); 
+        //Serial.println(input);
       }
 
-      Serial.print(input); // Print the Byte
+      //Serial.print(input); // Print the Byte
 
       // If the character is a delimator
       if(input == '|'){
@@ -222,28 +224,4 @@ void loop()
 
 /*
 Use https://qrcode.tec-it.com/en to generate QR Codes.
-Flags: 
-
-Challenge 2:
-- Set first and last name of ticket to elon musk 
-- '1111|elon|musk|22222|E|Austin|Spokane|Alaska|22C|Secret|1|' 
-
-
-Challenge 3: 
-- Set ticket to be first class 
-- '1111|Bill|Gates|22222|F|Austin|Spokane|Alaska|22C|Secret|1|'
-
-Challenge 4:
-- Find a way to set the 'secret' value.
-- '1111|Bill|Gates|22222|E|Austin|Spokane|Alaska|AAAAAAAAAAAAAAAAAAAAAAAAAAA|Secret|1|'
-
-Challenge 5: 
-- Create a checksum in the final slot with the final number '9675309'.
-- '111111|Maxwell|Dulin|9675309|E|Austin|Spokane|Alaska|22C|Secret|/|'
-
-Code for checksum: 
-string="XX"
-for char in string:
-  d = d + ord(char)
-print(d % 256) 
 */

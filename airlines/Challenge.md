@@ -20,3 +20,4 @@
 - The final section of the ticket is a checksum.
 - Modify the ticket with the flight number '9675309' with a valid checksum.
 - Hint: A checksum is a value derived from the rest of the input to ensure that the data was not corrupted in transit: https://en.wikipedia.org/wiki/Checksum
+- Hint: Read the code

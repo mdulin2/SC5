@@ -8,10 +8,6 @@
 #include <dirent.h>
 
 
-// Puts the newlines just to make parsing easier for now...
-char my_username[] = "jbezos\n"; 
-char my_password[] = "$money$\n";
-
 // Given a directory, create an OTP value.
 void create_otp(char* directory){
 
@@ -85,35 +81,6 @@ int check_otp_attempt(char* directory, int attempt){
 }
 
 /*
-Asks in for a user.
-Returns 0 for False and 1 for True
-*/
-int is_login(){
-	char username[30]; 
-	char password[40]; 
-	
-	printf("Please enter a username: "); 
-	fgets(username,30,stdin); 
-
-	printf("Please enter a password: "); 
-	fgets(password, 40,stdin);
-
-	// validate username	
-	if(strncmp(my_username,username, 30) != 0){
-		puts("Invalid username");
-		return 0; 
-	}
-
-	// Validate password
-	if(strncmp(my_password, password,40) != 0){
-		puts("Invalid password");
-		return 0; 
-	}
-	puts("Valid login");	
-	return 1; 
-}
-
-/*
 Sets up the random function.
 Returns a pointer to a string
 */
@@ -149,11 +116,8 @@ int main(){
 	setvbuf(stdout, NULL, _IONBF, 0);
 	setvbuf(stdin, NULL, _IONBF, 0);	
 	char* directory = setup();	
-	
-	// Ensure a proper login
-	while(is_login() == 0); 
 
-	puts("Now, enter the OTP login screen"); 
+	puts("Login complete. Entering the OTP login screen"); 
 	
 	int cont = 1;
 	int option; 
@@ -165,7 +129,6 @@ int main(){
 		// Create an OTP token	
 		if(option == 1){
 			create_otp(directory);
-
 		}
 		
 		// Attempt an OTP token

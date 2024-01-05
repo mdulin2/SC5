@@ -7,8 +7,13 @@ import uuid
 import time
 
 
-zeros = 7
-flag = "SC5{adfasfdas}"
+zeros = 5
+
+def read_flag(): 
+    file = open("flag.txt", "r")
+    content = file.read()
+    file.close()
+    return content
 
 # Hash an arbitrary string for us
 def hash_data(string):
@@ -54,9 +59,9 @@ def answer():
 	hash = hash_data(nonce + data['data'])
 	proof_validity = only_zeros(hash, zeros)
 	if(proof_validity == True):
-		return jsonify({"status" : "Valid proof!", "flag" : flag})
+		return jsonify({"status" : "Valid proof!", "flag" : read_flag()})
 
 	return jsonify({"status" : "Invalid proof", "flag" : ""})
 
 if __name__ == "__main__": 
-    app.run(debug=True) 
+    app.run(debug=True, port=10001,host="0.0.0.0")

@@ -1,0 +1,160 @@
+/* Set the background color and fonts */
+body {
+    display: flex;
+    font-family: 'Pacifico', cursive;
+    /* Use a fun and interesting font */
+    background-color: #e0f2e9;
+    /* Emerald Green background color */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Style the header and navigation */
+header {
+    background-color: #0a3d62;
+    /* Deep Blue background color */
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    font-family: 'Dancing Script', cursive;
+    /* Use a playful script font for the logo */
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    font-size: 16px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Style the hero section */
+.hero {
+    background-image: url('hero-background.jpg');
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.hero-text h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.hero-text p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff9900;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #ff6600;
+}
+
+/* Style the hotel component */
+.hotel {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    font-family: 'Oswald', sans-serif;
+    color: #333;
+}
+
+.hotel-list {
+    width: 300px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    max-height: 750px;
+    overflow-y: scroll;
+    /* Enable vertical scrolling */
+    flex: 1;
+    padding: 20px;
+}
+
+.hotel-image-mystery,
+.hotel-description {
+    margin-left: 200px;
+}
+
+.hotel-image {
+    flex: 1;
+    max-width: 100px;
+    max-height: 75px;
+    margin-right: 10px;
+}
+
+.hotel-details {
+    flex: 2;
+}
+
+.hotel-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.hotel-address {
+    font-size: 14px;
+    color: #666;
+}
+
+.hotel-amenities {
+    font-size: 16px;
+    color: #666;
+}
+
+.hotel-rating {
+    font-size: 16px;
+    color: #2ecc71;
+}
+
+.star-rating {
+    font-size: 18px;
+    color: #3498db;
+}
+
+.map {
+    flex: 1;
+    padding: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}

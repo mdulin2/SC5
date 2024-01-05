@@ -36,10 +36,12 @@ Eventually, the hashed string will have enough zeros. Exit at this point, since
 the work has been done.
 '''
 def calc_hash(data, diff):
-	nonce = 11111 
+	nonce = "11111"
+	# Edit here
 	return nonce
 		
 
+# Get the information from the server for us to prove
 proof_data = get_attempt()
 difficulty = proof_data['difficulty']
 data_to_prove = proof_data['data']
@@ -48,5 +50,6 @@ req_id = proof_data['proof_id']
 # TODO - find hash here
 nonce = calc_hash(data_to_prove, difficulty) 
 
+# Makes a request to the server to send the nonce
 print(send_attempt(req_id, nonce))
 

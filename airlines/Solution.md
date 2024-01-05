@@ -21,30 +21,23 @@
 - Convert this to a QR code via the website and scan it on the challenge. Flag will be given. 
 - flag: {'S', 'C', '5', '{', 'B', '&', 'd','C', 'l', 'a', 'S', 'S', '!', '}', '\0'}
 
-## Solution 4 
-- The 'secret' value is the 8th value in the structure. However, the code never sets it. What can we do? 
-- The size of the 'seatInfo' array is only 16 bytes. However, the validation is ``0x20`` bytes. 
-- So, there is a buffer overflow in this structure. 
-- Provide a ``seatInfo`` of larger than 16 bytes to get the flag. 
-- ``1111|Kevin|Mitnick|22222|E|New York|Spokane|Delta|AAAAAAAAAAAAAAAAAAAAAAAA|Secret|12|``
-- Convert this to a QR code via the website and scan it on the challenge. Flag will be given. 
-- flag: {'S', 'C', '5', '{', 'A', 'V', 'R','B', '0', 'F', '&', '}', '\0'};
-
-## Solution 5
+## Solution 4
 - Two things: 
     - Checksum
     - Flight number 
 - Flight number is the fourth value. Simply set this to be 9675309. 
 - The checksum is calculated by adding up every value prior to the checksum then modding it by 256. 
 - Code for this is written below: 
-    ```string="XX"
+    ```
+    string="11111|Kevin|Mitnick|9675309|E|New York|Spokane|Delta|22C|"
+    d = 0
     for char in string:
-    d = d + ord(char)
+        d = d + ord(char)
     print(chr(d % 256))
     ```
 - Use the string, without the checksum value, within the 'XX' above. 
 - Place the 'character' (not number) representing by this value into the QR code. 
-- ``111111|Maxwell|Dulin|9675309|E|Austin|Spokane|Alaska|22C|Secret|/|``
+- ``111111|Maxwell|Dulin|9675309|E|Austin|Spokane|Alaska|22C|M|``
 - Convert this to a QR code via the website and scan it on the challenge. Flag will be given. 
 - flag: {'S', 'C', '5', '{', 'C', 'h', '3','e', '7', 'Y', 'o', 's', '3', '1', 'f', '}', '\0'}
 
