@@ -4,7 +4,7 @@ Upload `challenge.gb`
 
 ## Challenge 1: Hackermon Null Version
 
-* Fire up an emulator (which is legal) to play this unlicensed GameBoy game that is totally not a ripoff of a popular franchise. There is an in-game computer! Try to hack it!
+* Fire up [an emulator](https://emulicious.net/) (which is legal) to play this unlicensed GameBoy game that is totally not a ripoff of a popular franchise. There is an in-game computer! Try to hack it!
 
 * Hint:
 
