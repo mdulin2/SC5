@@ -47,68 +47,77 @@ app.get("/winner/:userid", async function (req, res) {
    
 });
 
-// curl -X POST http://127.0.0.1:5000/login --data '{"user" : "admin"'} -H "Content-Type:application/json
+// curl -s -X POST "http://127.0.0.1:5000/webhook" --data '{"key1":"value1"}' -H 'Content-Type: application/json'
 app.post('/webhook', express.raw({type: 'application/json'}), async function (req, res) {
     var result; 
-    const sig = req.headers['stripe-signature'];
 
-  /*
-  // TODO - Perform signature validation here
-  var event;
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, "whsec_OBtkmrg2L5h73YMdy2lFRb8m9JlKUPjy")
-    console.log(event) 
-  }
-  catch (err) {
-    console.log(err.message) 
-    res.status(400).send(`Webhook Error: ${err.message}`);
-    return; 
-  }
-  */
-    console.log("Webhook!")
-    var event;
-    try{
-	    event = JSON.parse(req.body)
-            console.log(event);
-    }
-    catch(err){
-      res.json({"type" : "Missing 'body'"})
+    // TODO: Add error about the content-type not being correct 
+    var content_type = req.headers['content-type']; 
+    if(content_type != "application/json"){
+      res.json({"error" : "Wrong content type. Should be 'application/json'"}); 
       return; 
     }
 
-    if(!('type' in event)){
+    // TODO - Perform signature validation here
+    const sig = req.headers['stripe-signature'];
+
+    console.log("Webhook!")
+    var request_body;
+    try{
+	    request_body = JSON.parse(req.body)
+            console.log(request_body);
+    }
+    catch(err){
+      res.json({"type" : "Missing 'body' or invalid JSON"})
+      return; 
+    }
+
+    // Used to determine the type of webhook that's occurred
+    if(!('type' in request_body)){
       res.json({"type" : "Missing 'type' in body"});
       return; 
     }
 
-    // Handle the event
-    switch (event.type) {
+    // Handle the event from Stripe
+    switch (request_body.type) {
       case 'checkout.session.completed':
 
-        console.log(event.data);
-        if(!event.data){
+        console.log(request_body.data);
+        if(!request_body.data){
           result = {"type" : "Missing 'data' in body"}
           break;
         }
 
-        if(!('object' in event.data)){
+        if(!('object' in request_body.data)){
           result = {"type" : "Missing 'data.object' in body"}
           break; 
         }
-        var session_obj = event.data.object;
-        if(!('metadata') in event.data.object){
+        
+        if(!('metadata') in request_body.data.object){
           result = {"type" : "Missing 'data.object.metadata' in body"}
           break;
         }
 
-        if(!('payment_id') in event.data.object.metadata){
+        if(!('payment_id') in request_body.data.object.metadata){
           result = {"type" : "Missing 'data.object.metadata.payment_id' in body"}
           break;
         }
 
-        var tracking_id = event.data.object.metadata.payment_id;
-        var d = await db.get(`SELECT * FROM Orders WHERE ID = ?`, [tracking_id]);
-   	var user = await db.get(`SELECT * FROM Users WHERE UserID = ?`, d.UserID)
+        var order_id = request_body.data.object.metadata.payment_id;
+        var d = await db.get(`SELECT * FROM Orders WHERE ID = ?`, [order_id]);
+
+        if(d == undefined){
+          result = {"type" : "'data.object.metadata.payment_id' is invalid"}
+          break;
+        }
+
+   	    var user = await db.get(`SELECT * FROM Users WHERE UserID = ?`, d.UserID)
+         if(user == undefined){
+          result = {"type" : "'data.object.metadata.payment_id' does not have a valid user."}
+          break;
+        }
+
+        // Update the amount of Hitman that the user has bought
         updateUser(user.UserID, user.Amount + 1)
 	      result = {"error" : false, "message" : "Successfully bought!"}
         break;

@@ -14,7 +14,7 @@ killPtr: Can you overwrite the control flow? The goal is to corrupt the new ``fu
 - Hint: Use ``python3 -c "import sys; sys.stdout.buffer.write(b'A' * 0x1 + b'\x11\x22\x33\x44')" | ./killPtr``
 
 ## Challenge 4
-corruptRet: Can you overwrite the control flow? The goal is to overwrite the previously stopped instruction pointer to jump to 'do_valid_stuff. 
+corruptRet: Can you overwrite the control flow? The goal is to overwrite the previously stopped instruction pointer to jump to 'do_valid_stuff'. 
 - Hint: How does the RET instruction pointer and stack work on x86?
 - Hint: Use ``python3 -c "import sys; sys.stdout.buffer.write(b'A' * 0x1 + b'\x11\x22\x33\x44')" | ./corruptRet``
 - Hint: The offset is 0x30 bytes

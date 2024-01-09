@@ -166,13 +166,3 @@ function execute(arr){
 // Set the default value
 var array_input = document.getElementById("array_input");
 array_input.value = '["func1", "func2"]'; 
-
-/*
-// USER INPUT
-
-arr = [
-	"func1", "func2", "ROP" ,"func3", "func4", "1337", "0x8000000", "func5", "func6", "func7"
-]; 
-execute(arr); 
-didWin(); 
-*/
