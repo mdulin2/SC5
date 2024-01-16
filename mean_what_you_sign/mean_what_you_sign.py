@@ -124,9 +124,9 @@ def take_old_signature():
 
     # Calculate the signature and compare it against the one provided
     new_sig = sign(old_username, old_random_value) 
-    new_sig_base64 = base64.b64encode(new_sig) 
+    new_sig_base64 = base64.b64encode(new_sig)
 
-    print(new_sig_base64, old_signature, old_username) 
+    #print(new_sig_base64.decode("utf-8"), old_signature.decode("utf-8"), old_username) 
     if(new_sig_base64 == old_signature):
         print("Logged in!") 
         active_user = old_username
@@ -139,12 +139,13 @@ def take_old_signature():
 def get_session_data():
     global active_user 
 
-    # TODO - get rid of bytes
-    return str(base64.b64encode(user_data[active_user])) 
+    return base64.b64encode(user_data[active_user])
 
 def read_flag(): 
-    # TODO - read from file
-    return "SC5{sign_what_you_mean_and_mean_what_y0u_sign}"
+    file = open("flag.txt", "r")
+    content = file.read()
+    file.close()
+    return content
 
 def loop():
 
@@ -159,7 +160,7 @@ def loop():
             print("Hello, my name is {}".format(active_user))
         elif(d == 4):
             session = get_session_data()
-            print(session) 
+            print(session.decode('utf-8'))
 
         elif(d == 5):
             take_old_signature()

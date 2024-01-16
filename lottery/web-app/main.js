@@ -2,7 +2,7 @@ const hostName = 'localhost'
 
 function guessNumber(number) {
     const Http = new XMLHttpRequest();
-    const url='http://'+ hostName + ':5000/guess/'+ window.location.search.split('user=')[1] + '/' + number;
+    const url='http://'+ hostName + ':5001/guess/'+ window.location.search.split('user=')[1] + '/' + number;
     Http.onreadystatechange = (e) => {
         p = document.getElementsByClassName("alert")[0];
         p.innerHTML = Http.responseText;
@@ -14,7 +14,7 @@ function guessNumber(number) {
 
 function validateGuess() {
     const Http = new XMLHttpRequest();
-    const url='http://'+ hostName + ':5000/validate/' + window.location.search.split('user=')[1];
+    const url='http://'+ hostName + ':5001/validate/' + window.location.search.split('user=')[1];
     Http.onreadystatechange = (e) => {
         p = document.getElementsByClassName("alert")[0];
         p.innerHTML = Http.responseText;
@@ -26,7 +26,7 @@ function validateGuess() {
 
 function register(userName) {
     const Http = new XMLHttpRequest();
-    const url='http://'+ hostName+ ':5000/register/' + userName;
+    const url='http://'+ hostName+ ':5001/register/' + userName;
     console.log('registered');
     Http.onreadystatechange = (e) => {
         //console.log(Http.readyState);
@@ -45,7 +45,7 @@ function register(userName) {
 
 function getPrevious() {
     const Http = new XMLHttpRequest();
-    const url='http://'+ hostName + ':5000/history';
+    const url='http://'+ hostName + ':5001/history';
     Http.onreadystatechange = (e) => {
         if (Http.readyState === XMLHttpRequest.DONE) {
             ul = document.createElement('ul');

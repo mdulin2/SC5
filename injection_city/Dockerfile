@@ -9,7 +9,7 @@ RUN apt-get install iputils-ping sqlite -y
 # Start script 
 COPY start.sh start.sh 
 RUN chmod +x start.sh
-RUN pip install flask beautifulsoup4 slimit
+RUN pip install flask beautifulsoup4 slimit 
 
 RUN mkdir /flags
 ADD flags /flags

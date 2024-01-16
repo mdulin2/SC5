@@ -4,13 +4,15 @@ import database
 import sqlite3
 from abstract_database_connection import AbstractDatabaseConnection
 import uuid
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 CORS(app)
 
 @app.route("/submit", methods=["POST"])
+@cross_origin(origin='*')
 def submit():
 	body = request.get_json()
 
@@ -47,6 +49,7 @@ def submit():
 
 # Remove the value
 @app.route("/<button_id>", methods = ["DELETE"])
+@cross_origin(origin='*')
 def remove(button_id):
 
 	with AbstractDatabaseConnection('button.db') as conn:
@@ -58,6 +61,7 @@ def remove(button_id):
 
 # Add a new button to test
 @app.route("/add_button", methods=["POST"])
+@cross_origin(origin='*')
 def add_button():
 	button_id = str(uuid.uuid4())
 	with AbstractDatabaseConnection('button.db') as conn:
@@ -70,6 +74,7 @@ def add_button():
 
 # Did the score get larger than 100?
 @app.route("/points/<button_id>", methods = ["GET"])
+@cross_origin(origin='*')
 def send_points(button_id):
 	button_info = get_button(button_id)
 
@@ -82,6 +87,7 @@ def send_points(button_id):
 
 # Did the score get larger than 100?
 @app.route("/winner/<button_id>", methods = ["GET"])
+@cross_origin(origin='*')
 def did_win(button_id):
 	button_info = get_button(button_id)
 
