@@ -10,12 +10,8 @@ RUN pip install flask
 
 ADD flag.txt /flag.txt
 
-# Frontend code
-RUN mkdir /frontend
-ADD frontend /frontend
-
 # Backend code
-RUN mkdir /backend
-ADD backend /backend
+RUN mkdir /webserver
+ADD webserver /webserver
 
 ENTRYPOINT ["/start.sh"]
