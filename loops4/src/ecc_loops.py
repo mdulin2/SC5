@@ -23,7 +23,7 @@ Pick a secret number, call it a. I'll pick a different secret, called
 b. You can send me a * G, and I'll send you b * G. Then you can
 "multiply" my message (b * G) by a, and I can "multiply" yours by b.
 You'll get (b * G) * a and I'll get (a * G) * b. Both of those are equal
-to a * b * G, so we now have a shared secret value.
+to a * b * G, so we now have a shared secret value!
 
 '''
     for line in prompt.splitlines():
@@ -41,6 +41,9 @@ def gen_prompt(bitlen: int):
     
     a = random.randint(1, min(modulus - 1, 300))
     b = random.randint(1, min(modulus - 1, 5000))
+    while (4*a**4 + 27*b**2 == 0):
+        a = random.randint(1, min(modulus - 1, 300))
+        b = random.randint(1, min(modulus - 1, 5000))
 
     E = EllipticCurve(GF(modulus), [a, b])
     g = E.gens()[0]
@@ -56,7 +59,6 @@ def gen_prompt(bitlen: int):
         solution = priv_a * pub_b
 
     print(f"On the elliptic curve y^2 = x^3 + {a}x + {b} (mod {modulus})")
-    print(f"where the point G = ({g[0]}, {g[1]})")
     print(f"if your secret (a) is {priv_a} and I give you the point ({pub_b[0]}, {pub_b[1]})")
     print(f"what is the shared secret? (Give the coordinates as \"x,y\")")
 
@@ -75,14 +77,14 @@ def main():
     try:
         print_header()
 
-        print('1/6')
+        print('1/5')
         if gen_prompt(6):
             print('correct\n')
         else:
             fail()
 
         for i in range(2, 5):
-            print(f"{i}/6")
+            print(f"{i}/5")
             # guarantee the generator a few times to make the pattern easier to spot
 
             if gen_prompt(7 + i):
@@ -90,7 +92,7 @@ def main():
             else:
                 fail()
 
-        print('6/6')
+        print('5/5')
         print('Final challenge:\n')
 
         if gen_prompt(48):

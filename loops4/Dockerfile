@@ -1,8 +1,11 @@
-FROM ubuntu:22.04
+FROM sagemath/sagemath
 
 # Add GDB, Python, SSH, gcc and curl
-RUN apt-get update -y && DEBIAN_FRONTEND=noninteractive apt install -y openssh-server python3 python3-pip sagemath
-RUN pip install --upgrade pip
+USER root
+RUN apt-get update -y && DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server
+
+RUN chmod +x /home/sage
+RUN chmod +x /home/sage/sage
 
 WORKDIR /usr/bin
 
@@ -19,7 +22,7 @@ RUN sed -i '/#PermitEmptyPasswords no/c\PermitEmptyPasswords yes' /etc/ssh/sshd_
 RUN sed -i '/UsePAM yes/c\UsePAM no' /etc/ssh/sshd_config
 
 RUN mkdir /var/run/sshd
-EXPOSE 22/tcp 
+EXPOSE 22/tcp
 CMD [ "/usr/sbin/sshd", "-D" ]
 
 
