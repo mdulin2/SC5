@@ -1,4 +1,4 @@
-# Loops 4
+## Loops 4
 
 This challenge asks the student to implement [elliptic curve point multiplication](https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication). Two functions need to be used: point addition and point multiplication. The pseudocode for both algorithms is provided on Wikipedia
 
