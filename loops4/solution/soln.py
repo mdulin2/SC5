@@ -60,22 +60,22 @@ def main():
 
     for i in range(5):
         l1 = input('paste 2 lines:')
-        l3 = input()
+        l2 = input()
         
         print('/')
         print(l1)
-        print(l3)
+        print(l2)
         print('/')
         
         l1_matches = re.match(r'.* \+ (\d+)x \+ (\d+) \(mod (\d+)\)', l1)
-        l3_matches = re.match(r'.* is (\d+) .*\((\d+), (\d+)\)', l3)
+        l2_matches = re.match(r'.* is (\d+) .*\((\d+), (\d+)\)', l2)
 
         a = int(l1_matches.group(1))
         b = int(l1_matches.group(2))
         mod = int(l1_matches.group(3))
-        priv_a = int(l3_matches.group(1))
-        pub_bx = int(l3_matches.group(2))
-        pub_by = int(l3_matches.group(3))
+        priv_a = int(l2_matches.group(1))
+        pub_bx = int(l2_matches.group(2))
+        pub_by = int(l2_matches.group(3))
 
         print(a, b, mod, priv_a, pub_bx, pub_by)
         curve = Curve(a, b, mod)
