@@ -130,6 +130,15 @@
 - **LLMs (chatgpt)** (2):
     - Programmer Helper 3.5 (challenge 1): Bypass system prompt to make the GPT-3.5 chatbot say the forbidden word.
     - Programmer Helper 4 (challenge 2): Bypass system prompt to make the GPT-4 chatbot say the forbidden word.
+- OSINT (Related to Vanessa's hotel image lookup challenge) (Andrew Antles):
+	- **DNS Records Scavenger Hunt:** (3)
+		- MX record lookup
+		- WHOIS record lookup
+		- PTR record lookup
+		- TXT record lookup - pending
+	- File Retrieval and Analysis:
+		- Use Google Dorks to find a very specific document
+		- Retrieve metadata from the file identified in the previous challenge
 
 
 ## Contributing
