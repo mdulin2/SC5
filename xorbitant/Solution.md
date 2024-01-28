@@ -1,6 +1,6 @@
 ## Xorbitant
 
-By XORing the first 5 characters of the ciphertext with the known start of the flag, the first few bytes of the key can be determined (`v93"`). Attempting to decrypt the whole message with keys of different sizes will give outputs that look very random and incorrect, except for length 8:
+By XORing the first 4 characters of the ciphertext with the known start of the flag, the first few bytes of the key can be determined (`v93"`). Attempting to decrypt the whole message with keys of different sizes will give outputs that look very random and incorrect, except for length 8:
 
 ```
 key: v93"a      (len 5): b'SC5{ht\x02\x1ar!\x0b:;\n{#sN5~^(c}&X=\x1c\x0b5,h7<Md}'
