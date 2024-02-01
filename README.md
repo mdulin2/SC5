@@ -136,7 +136,7 @@
 		- WHOIS record lookup
 		- PTR record lookup
 		- TXT record lookup - pending
-	- File Retrieval and Analysis:
+	- **File Retrieval and Analysis:** (2)
 		- Use Google Dorks to find a very specific document
 		- Retrieve metadata from the file identified in the previous challenge
 

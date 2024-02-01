@@ -1,21 +1,43 @@
 # DNS Records Scavenger Hunt 
 
-Lots of interesting information can be found in DNS and domain registration records. Let’s dig up some details using publicly available information!
-
 ## Email Destination
 
-Guidance: MX records let us know where to send email for a domain. Use mxtoolbox.com.
+Solution Steps:
+1. Use an MX record look up service - https://mxtoolbox.com is recommended.
+    * Use the MX Lookup service.
+1. Look up the MX record for "mcdonalds.com", without the quotes. 
+    * It will return the IP address of the destination mail server for the domain, mcdonalds.com
 
-Answer: 52.3.1.83
+Flag/Answer: 52.3.1.83
 
 ## Find the Hosting Provider
 
-Guidance: DNS A records look up an IP address when given a domain name. PTR records are the opposite and return a domain name when given a IP address. Sometimes called a "reverse lookup". Use mxtoolbox.com.
+Solution Steps:</br>
+There are two main steps to this solution: 
+  * Look up the IP address of the domain.
+  * Perform a reverse lookup
 
-Answer: AWS
+Look up the IP address of the domain:
+  1. Navigate to https://mxtoolbox.com and click the SuperTool link in the upper-left.
+        * Alternatively, navigate to: https://mxtoolbox.com/SuperTool.aspx
+  1. In the SuperTool drop-down menu, select "DNS Lookup."
+  1. Enter the domain, "maxwelldulin.com", without the quotes.
+  1. Copy/note the resulting IP address. 
+
+Perform a reverse lookup:
+1. While still using the SuperTool, select "Reverse Lookup" from the drop-down menu.
+1. Enter the IP address from the previous DNS lookup.
+1. Note that the resulting output indicates the website is hosted from AWS.
+
+Flag/Answer: AWS
 
 ## Domain Registration Lookup
 
-Guidance: WHOIS records provide domain registration information for a domain. Use mxtoolbox.com.
+Use a WHOIS record lookup to find the email address of the admin of the domain:
+  1. Navigate to https://mxtoolbox.com and click the SuperTool link in the upper-left.
+        * Alternatively, navigate to: https://mxtoolbox.com/SuperTool.aspx
+  1. In the SuperTool drop-down menu, select "Whois Lookup."
+  1. Enter the domain, "spokesman.com", without the quotes.
+  1. Locate the "Admin Email" field in the resulting output. 
 
-Answer: itbusiness@SPOKESMAN.COM
+Flag/Answer: itbusiness@SPOKESMAN.COM

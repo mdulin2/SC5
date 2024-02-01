@@ -11,13 +11,13 @@ someone@mcdonalds.com, what IP address would I send my message to?
 
 ## Find the Hosting Provider
 
-The creator of the Spokane Cyber Cup is Maxwell Dulin and he runs an awesome website at maxwelldulin.com. You should check it out sometime! Where does he host his website from?
+The creator of the Spokane Cyber Cup is Maxwell Dulin and he runs an awesome website at https://maxwelldulin.com. You should check it out sometime! Where does he host his website from?
 
 * Hint: This is a tough one - I might need a PTR... I mean pointer!
 
 ## Domain Registration Lookup
 
-The Spokesman Review is a local newspaper and one of the longest running in the area. They run a domain, spokesman.com. What is the email address of the admin of this domain?
+The Spokesman Review is a local newspaper and one of the longest running in the area. They run a domain, https://spokesman.com. What is the email address of the admin of this domain?
 
 * Hint: If you ask me who the admin is, I'd ask you right back, "WHOIS it?"
 
