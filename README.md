@@ -1,5 +1,8 @@
 # Challenges for SC5 - Spokane Cyber Cup V
 
+* Solution guide - https://docs.google.com/document/d/1RCWwVwtxQcl0vf9X4b3Cyo7KDDLVKwGW5xKh5LhxlNI/edit?usp=sharing
+* Videos for the challenges - https://www.youtube.com/watch?v=_brMPWHUClQ&list=PLT-LPGjotMdslqpw2MnJHXAEiGxYb0H-c
+
 ## Web (11)
 - Lottery:
 	- Redis duplicate key caching bug
