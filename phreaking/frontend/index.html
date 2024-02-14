@@ -1,0 +1,63 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- -->
+    </head>
+    <body onload="initializeIFrameListenerMainPage()">
+
+        <!--
+            Have to do this in an iframe
+            This is because MediaRecorder will ignore audio processed from the same DOM (I think)? 
+            If we do this straight on the same page, it doesn't work. But this works :) 
+        -->
+        <iframe id="soundBar" src="dial.html" height="200" width="150">
+        </iframe>
+
+        <p>
+            <!-- Key pad, quarter deposit and more go here.  -->
+            <button id="startCall" onClick="listenToAudio()">
+                Start Call
+            </button>
+
+            <button id="endCall" onClick="cancelAudio()">
+                End call
+            </button>
+        </p>
+
+        <p id="numberData">
+            Dialed Number: 
+        </p>
+        <p id="stateData">
+            State:
+        </p>
+        <p id="flagData" style="visibility:hidden">
+            Flag:
+        </p>
+
+        <p id="moneyData" style="visibility:hidden">
+            Amount: 0
+        </p>
+
+        <!--Phone book data-->
+        <!-- TODO: Add in table headers-->
+        <table id="phoneTable">
+            <th>Phone Number</th>
+            <th>Person/Place</th>
+            <th>International</th>
+        </table>
+
+        <!-- Add phone book table here -->
+        <!--<iframe src="https://onlinetonegenerator.com/dtmf.html"></iframe>-->
+    </body>
+</html>
+ 
+
+<script type="text/javascript" src="audio.js">
+
+</script>
+
+<script type="text/javascript" src="poc.js">
+
+</script>

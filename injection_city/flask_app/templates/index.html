@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Injection City</title>
+</head>
+ 
+<body>
+<h1>Injection City</h1>
+<p>
+  These are all <b>injection</b> based challenges. Here are a few tips:
+  <ul>
+    <li>Look at issues with dynamic strings being used in a given context. Once you understand <i>why</i> using dynamic content is bad in this context, you'll have a good chance to solve it.
+    </li>
+    <li>Copy the command/query/whatever into a text editor. Then, add in your payload into the injected here. This helps with the exploit payload generation.
+    </li>
+    <li>
+      The full command must be valid syntax. Otherwise, it probably won't execute. 
+    </li>
+    <li>
+     The data to alter is either a parameter in the URL or a form field on the page. Have fun!
+    </li>
+  </ul>
+</p>
+<!--<h1 class="titlename">Challenge 1</h1>-->
+<div class="parent">
+    <div class="container">
+        <div class="house">
+          <div class="picture">
+            <!--<img src="https://maxwelldulin.com/static/StrikeoutDEFCON29.JPG" class="picture"/>-->
+            <a href="/ping/?domain=google.com">Command Injection - 4</a>
+          </div>
+          <div class="door">
+          </div>
+          <div class="flower"></div>
+          <div class="window"></div>
+        </div>
+    </div>
+    <div class="container">
+      <div class="house" style="height:500px">
+        <div class="picture">
+          <a href="/head/?d=1000">Argument Injection - 5</a>
+        </div>
+        <div class="door"></div>
+        <div class="flower"></div>
+        <div class="window"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="house" style="height:500px">
+        <div class="picture">
+          <a href="/xss">Cross Site Scripting (XSS) - 5</a>
+        </div>
+        <div class="door"></div>
+        <div class="flower"></div>
+        <div class="window"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="house" style="height:600px">
+        <div class="picture">
+          <a href="/search">SQL Injection - 6</a>
+        </div>
+        <div class="door"></div>
+        <div class="flower"></div>
+        <div class="window"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="house" style="height:700px">
+        <div class="picture">
+          <a href="/name/?name=Your Name">Template Injection - 7</a>
+        </div>
+        <div class="door">
+        </div>
+        <div class="flower"></div>
+        <div class="window"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="house" style="height:1500px">
+        <div class="picture">
+          <a href="/building_data?name=John Jacobs&address=101 Main">Code Injection - 8</a>
+        </div>
+        <div class="door"></div>
+        <div class="flower"></div>
+        <div class="window"></div>
+      </div>
+    </div>
+</div>
+</body>
+</html

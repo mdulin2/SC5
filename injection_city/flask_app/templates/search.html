@@ -1,0 +1,28 @@
+<html>
+<body>
+	<div class="centered"></div>
+	<div class="content">
+	  <h2>Alphabet Search - SQL Injection</h2>
+	  {% if flag is none %}
+	  <p>
+		Hello friend. Please steal the data from the table 'flags'.
+	  </p>
+	  {% else %}
+	  <p>
+		{{flag}}
+	  </p>
+	  {% endif %}
+	  <form method="POST">
+		<input name="search">
+
+		<button type="submit">Search!</button>
+	  </form>
+	  <p>
+		<em>SQL Query:</em> <span id="input">{{userInput}}</span>
+	  </p>
+	  <p>
+		<em>SQL Response:</em> <span id="input">{{response}}</span>
+	  </p>
+	</div>
+  </body>
+  </html>

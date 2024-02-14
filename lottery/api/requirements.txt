@@ -1,0 +1,5 @@
+flask
+redis
+numpy
+flask-cors
+apscheduler
